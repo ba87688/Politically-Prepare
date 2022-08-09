@@ -2,4 +2,8 @@
     <string name="app_name">Political Preparedness</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upcoming_elections">Upcoming Elections</string>
+    <string name="find_my_representatives">Find My Representatives</string>
+    <string name="current_elections">Current Elections</string>
+    <string name="upcoming_elections">Upcoming Elections</string>
 </resources>

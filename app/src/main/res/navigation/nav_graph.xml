@@ -9,5 +9,13 @@
         android:id="@+id/launcherFragment"
         android:name="com.example.politicalpreparedness.fragments.launch.LauncherFragment"
         android:label="fragment_launcher"
-        tools:layout="@layout/fragment_launcher" />
+        tools:layout="@layout/fragment_launcher" >
+        <action
+            android:id="@+id/action_launcherFragment_to_electionDataList"
+            app:destination="@id/electionDataList" />
+    </fragment>
+    <fragment
+        android:id="@+id/electionDataList"
+        android:name="com.example.politicalpreparedness.fragments.electionsdata.ElectionDataList"
+        android:label="ElectionDataList" />
 </navigation>
