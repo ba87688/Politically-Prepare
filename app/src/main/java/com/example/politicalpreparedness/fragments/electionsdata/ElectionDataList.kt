@@ -10,6 +10,7 @@ import com.example.politicalpreparedness.databinding.FragmentElectionDataListBin
 
 class ElectionDataList : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
