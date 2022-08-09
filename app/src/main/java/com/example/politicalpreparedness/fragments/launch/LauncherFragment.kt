@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.politicalpreparedness.R
+import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 
 
 class LauncherFragment : Fragment() {
@@ -15,8 +16,11 @@ class LauncherFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val binding = FragmentLauncherBinding.inflate(inflater)
+        binding.lifecycleOwner=this
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_launcher, container, false)
+        return binding.root
     }
 
 

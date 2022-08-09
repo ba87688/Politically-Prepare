@@ -10,5 +10,9 @@
     </style>
 
     <!-- TODO: Add necessary styles -->
+    <style name="Button.Grey" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
 
 </resources>
