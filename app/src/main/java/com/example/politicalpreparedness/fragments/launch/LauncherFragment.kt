@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.room.Room
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
+import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +29,52 @@ class LauncherFragment : Fragment() {
     ): View? {
         val binding = FragmentLauncherBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
+
+
+        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
+        val dao = database.currentElectionDao()
+        val election = Election("Evan","33","ridiculous","Octavious")
+        dao.insert(election)
+        val g = dao.getElectionByID("33")
+        Log.i("MIRRORS", "onCreateView: $g")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,7 +109,23 @@ class LauncherFragment : Fragment() {
             val nav = findNavController()
             nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
         }
-        // Inflate the layout for this fragment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         return binding.root
     }
 
