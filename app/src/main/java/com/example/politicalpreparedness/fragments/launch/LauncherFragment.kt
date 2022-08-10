@@ -10,6 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
+import com.example.politicalpreparedness.models.Election
+import com.example.politicalpreparedness.models.Elects
 import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,36 +26,41 @@ class LauncherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentLauncherBinding.inflate(inflater)
-        binding.lifecycleOwner=this
+        binding.lifecycleOwner = this
 
 
-
-        binding.buttonUpcomingElections.setOnClickListener {
-            val nav = findNavController()
-            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList())
-        }
 
 
         //testing retrofit
 
+        var list = mutableListOf<Election>()
+        var e:Elects? = null
         val retro = RetrofitInstance.api
         lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-            val i = retro.getElection()
+            withContext(Dispatchers.IO) {
+                val i = retro.getElection()
+                val body = i.body()?.elections
+                list = body?.toMutableList()!!
 
-            Log.i("TAG", "onCreateView success: ${i} ")
-            Log.i("TAG", "onCreateView success: ${i.isSuccessful} ")
-            if (i.body()!=null){
-                Log.i("TAG", "onCreateView not null : ${i.body()} ")
+                Log.i("Ridiculous", "onCreateView: list ${list.toString()}")
+                Log.i("TAG", "onCreateView success: ${i} ")
+                Log.i("TAG", "onCreateView success: ${i.isSuccessful} ")
+                if (i.body() != null) {
+                    Log.i("TAG", "onCreateView not null : ${i.body()} ")
 
-            }
-            Log.i("TAG", "onCreateView wa is it: ${i.body()} ")
-            Log.i("TAG", "onCreateView wa is it: ${i.body().toString()} ")
+                }
+                withContext(Dispatchers.Main){
+                    e = Elects(body)
+                }
             }
         }
 
+        Log.i("TAG", "onCreateView weeee: ${e} ")
 
-
+        binding.buttonUpcomingElections.setOnClickListener {
+            val nav = findNavController()
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
+        }
         // Inflate the layout for this fragment
         return binding.root
     }

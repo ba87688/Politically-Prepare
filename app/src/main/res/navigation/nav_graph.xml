@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/electionDataList"
         android:name="com.example.politicalpreparedness.fragments.electionsdata.ElectionDataList"
-        android:label="ElectionDataList" />
+        android:label="ElectionDataList" >
+        <argument
+            android:name="election_list"
+            app:argType="com.example.politicalpreparedness.models.Elects" />
+    </fragment>
 </navigation>
