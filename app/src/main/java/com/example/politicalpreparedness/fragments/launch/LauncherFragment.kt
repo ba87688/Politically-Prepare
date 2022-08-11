@@ -13,6 +13,7 @@ import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
+import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
@@ -28,6 +29,9 @@ class LauncherFragment : Fragment() {
     @Inject
     lateinit var retro:ElectionsAPI
 
+    @Inject
+    lateinit var dao:CurrentElectionDao
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +42,16 @@ class LauncherFragment : Fragment() {
 
 
 //        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
-//        val dao = database.currentElectionDao()
-//        val election = Election("Evan","33","ridiculous","Octavious")
-//        dao.insert(election)
-//        val g = dao.getElectionByID("33")
-//        Log.i("MIRRORS", "onCreateView: $g")
+//        val dao = db.currentElectionDao()
+        val election = Election("Evan","33","ridiculous","Octavious")
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO){
+                dao.insert(election)
+                val g = dao.getElectionByID("33")
+                Log.i("MIRRORS", "onCreateView: $g")
+            }
+        }
+
 
 
 
