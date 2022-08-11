@@ -14,14 +14,19 @@ import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
 import com.example.politicalpreparedness.network.database.ElectionDatabase
+import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class LauncherFragment : Fragment() {
 
+    @Inject
+    lateinit var retro:ElectionsAPI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,7 +88,7 @@ class LauncherFragment : Fragment() {
 
         var list = mutableListOf<Election>()
         var e:Elects? = null
-        val retro = RetrofitInstance.api
+//        val retro = RetrofitInstance.api
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val i = retro.getElection()
@@ -107,22 +112,9 @@ class LauncherFragment : Fragment() {
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
+
             nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
