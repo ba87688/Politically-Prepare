@@ -46,9 +46,9 @@ class LauncherFragment : Fragment() {
         val election = Election("Evan","33","ridiculous","Octavious")
         lifecycleScope.launch {
             withContext(Dispatchers.IO){
-                dao.insert(election)
-                val g = dao.getElectionByID("33")
-                Log.i("MIRRORS", "onCreateView: $g")
+//                dao.insert(election)
+//                val g = dao.getElectionByID("33")
+//                Log.i("MIRRORS", "onCreateView: $g")
             }
         }
 
