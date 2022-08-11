@@ -32,12 +32,12 @@ class LauncherFragment : Fragment() {
 
 
 
-        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
-        val dao = database.currentElectionDao()
-        val election = Election("Evan","33","ridiculous","Octavious")
-        dao.insert(election)
-        val g = dao.getElectionByID("33")
-        Log.i("MIRRORS", "onCreateView: $g")
+//        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
+//        val dao = database.currentElectionDao()
+//        val election = Election("Evan","33","ridiculous","Octavious")
+//        dao.insert(election)
+//        val g = dao.getElectionByID("33")
+//        Log.i("MIRRORS", "onCreateView: $g")
 
 
 

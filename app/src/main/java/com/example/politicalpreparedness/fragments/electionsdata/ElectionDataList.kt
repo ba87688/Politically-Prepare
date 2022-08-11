@@ -43,6 +43,7 @@ class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener 
 
 
 
+
     }
 
 }
