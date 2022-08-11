@@ -9,10 +9,21 @@ import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.RvUpcomingElectionListBinding
 import com.example.politicalpreparedness.models.Election
 
-class CurrentElectionAdapter (private val mlist:List<Election>): RecyclerView.Adapter<CurrentElectionAdapter.CEViewHolder>() {
+class CurrentElectionAdapter (private val mlist:List<Election>, private val listener:OnItemClickListener): RecyclerView.Adapter<CurrentElectionAdapter.CEViewHolder>() {
 
-    inner class CEViewHolder(view: View): RecyclerView.ViewHolder(view){
+    inner class CEViewHolder(view: View): RecyclerView.ViewHolder(view),View.OnClickListener{
         val binding = RvUpcomingElectionListBinding.bind(view)
+
+        init {
+            binding.root.setOnClickListener(this)
+        }
+        override fun onClick(p0: View?) {
+            val position:Int = adapterPosition
+            if (position!=RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CEViewHolder {
@@ -37,6 +48,10 @@ class CurrentElectionAdapter (private val mlist:List<Election>): RecyclerView.Ad
 
     override fun getItemCount(): Int {
         return mlist.size
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 
 

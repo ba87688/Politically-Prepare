@@ -21,5 +21,16 @@
         <argument
             android:name="election_list"
             app:argType="com.example.politicalpreparedness.models.Elects" />
+        <action
+            android:id="@+id/action_electionDataList_to_electionDataDetail"
+            app:destination="@id/electionDataDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/electionDataDetail"
+        android:name="com.example.politicalpreparedness.fragments.electiondatadetails.ElectionDataDetail"
+        android:label="ElectionDataDetail" >
+        <argument
+            android:name="Election"
+            app:argType="com.example.politicalpreparedness.models.Election" />
     </fragment>
 </navigation>

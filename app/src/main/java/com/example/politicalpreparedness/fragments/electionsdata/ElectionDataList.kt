@@ -13,7 +13,7 @@ import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
 import com.example.politicalpreparedness.databinding.FragmentElectionDataListBinding
 
-class ElectionDataList : Fragment() {
+class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener  {
 
 
     val args: ElectionDataListArgs by navArgs()
@@ -28,11 +28,21 @@ class ElectionDataList : Fragment() {
         binding.lifecycleOwner=this
 
         Log.i("TAG", "next view: ${args.electionList.e}")
-        val adapter = CurrentElectionAdapter(args.electionList.e)
+        val adapter = CurrentElectionAdapter(args.electionList.e, this)
 
         binding.rvUpcomingElections.adapter =adapter
         binding.rvUpcomingElections.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
+    }
+
+    override fun onItemClick(position: Int) {
+
+        var str = "Edit the string $position"
+        Log.i("TAG", "onItemClick: $str")
+
+
+
+
     }
 
 }
