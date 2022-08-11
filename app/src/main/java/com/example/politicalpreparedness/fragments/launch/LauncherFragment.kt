@@ -1,11 +1,13 @@
 package com.example.politicalpreparedness.fragments.launch
 
+import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
@@ -17,6 +19,8 @@ import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
+import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
+import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +34,14 @@ class LauncherFragment : Fragment() {
     lateinit var retro:ElectionsAPI
 
     @Inject
+    lateinit var db:ElectionDatabase
+    @Inject
+    lateinit var application:Application
+    @Inject
     lateinit var dao:CurrentElectionDao
+
+    private lateinit var viewModel: CurrentElectionsViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +51,12 @@ class LauncherFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
+        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
+
+        val evan = viewModel.evan
+        Log.i("TAG", "onCreateView: Evan is $evan")
 
 //        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
 //        val dao = db.currentElectionDao()

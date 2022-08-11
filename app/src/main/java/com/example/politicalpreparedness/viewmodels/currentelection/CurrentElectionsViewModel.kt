@@ -7,9 +7,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class CurrentElectionsViewModel @Inject constructor(val database: ElectionDatabase, application: Application):AndroidViewModel(application){
+class CurrentElectionsViewModel @Inject constructor(val database: ElectionDatabase, application: Application): AndroidViewModel(application) {
 
+    lateinit var evan:String
 
+    init {
+        evan ="Evan"
+    }
 
 
 }
