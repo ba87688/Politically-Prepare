@@ -16,6 +16,7 @@
         <action
             android:id="@+id/action_launcherFragment_to_findMyRepresentativeFragment"
             app:destination="@id/findMyRepresentativeFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/electionDataList"

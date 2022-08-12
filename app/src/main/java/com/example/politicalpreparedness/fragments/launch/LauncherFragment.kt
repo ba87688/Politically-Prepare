@@ -140,6 +140,7 @@ class LauncherFragment : Fragment() {
             val nav = findNavController()
 
             nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
+//            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToTestCollapseFragment())
         }
 
         binding.buttonFindRepresentatives.setOnClickListener {
