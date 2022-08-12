@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
@@ -37,9 +38,13 @@ class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener 
 
     override fun onItemClick(position: Int) {
 
-        var str = "Edit the string $position"
-        Log.i("TAG", "onItemClick: $str")
 
+        val list = args.electionList.e
+        val selectedElection = list.get(position)
+        Log.i("TAG", "onItemClick: ${selectedElection.name}")
+
+        val nav = findNavController()
+        nav.navigate(ElectionDataListDirections.actionElectionDataListToElectionDataDetail(selectedElection))
 
 
 

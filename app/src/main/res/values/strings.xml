@@ -5,4 +5,11 @@
     <string name="upcoming_elections">Upcoming Elections</string>
     <string name="find_my_representatives">Find My Representatives</string>
     <string name="current_elections">Current Elections</string>
+
+
+    <string name="follow_election">Follow Election</string>
+    <string name="unfollow_election">Unfollow Election</string>
+
+    <string name="voting_location">  <a href="https://www.google.com">Voting Information</a></string>
+    <string name="ballot_information"> <a href="https://google.com">Ballot Information </a></string>
 </resources>
