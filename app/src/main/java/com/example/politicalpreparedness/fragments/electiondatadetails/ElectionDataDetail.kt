@@ -26,6 +26,9 @@ class ElectionDataDetail : Fragment() {
         binding.lifecycleOwner=this
 
 
+        binding.tvDateOfElection.text = args.election.electionDay
+        binding.tvElectionTitle.text = args.election.name
+
         setLinks()
 
         return binding.root

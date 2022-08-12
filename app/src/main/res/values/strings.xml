@@ -12,4 +12,5 @@
 
     <string name="voting_location">  <a href="https://www.google.com">Voting Information</a></string>
     <string name="ballot_information"> <a href="https://google.com">Ballot Information </a></string>
+    <string name="election_information">Election Information</string>
 </resources>
