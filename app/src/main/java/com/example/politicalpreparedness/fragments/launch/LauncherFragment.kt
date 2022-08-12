@@ -15,6 +15,7 @@ import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
+import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
@@ -80,6 +81,46 @@ class LauncherFragment : Fragment() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var list1 = mutableListOf<Representatives>()
+        var e1:Representatives? = null
+//        val retro = RetrofitInstance.api
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val i = retro.getRepresentatives()
+                val body = i.body()?.officials
+
+                val geo=body?.size
+
+                Log.i("man o man", "testing representatives data: list ${geo}")
+
+                withContext(Dispatchers.Main){
+
+                }
+            }
+        }
 
 
 
