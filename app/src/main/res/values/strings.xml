@@ -13,4 +13,11 @@
     <string name="voting_location">  <a href="https://www.google.com">Voting Information</a></string>
     <string name="ballot_information"> <a href="https://google.com">Ballot Information </a></string>
     <string name="election_information">Election Information</string>
+    <string name="use_my_location">Use My Location</string>
+    <string name="find_my_representative">Find My Representative</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="city">City</string>
+    <string name="address1">Address Line 1</string>
+    <string name="address2">Address Line 2</string>
+    <string name="representative_search">Representative Search</string>
 </resources>

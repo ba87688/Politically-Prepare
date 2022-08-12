@@ -142,6 +142,11 @@ class LauncherFragment : Fragment() {
             nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
         }
 
+        binding.buttonFindRepresentatives.setOnClickListener {
+            val nav = findNavController()
+
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment())
+        }
 
 
         return binding.root
