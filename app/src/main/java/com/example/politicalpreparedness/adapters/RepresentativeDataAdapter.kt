@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.RepresentativeCardBinding
+import com.example.politicalpreparedness.models.representatives.Official
 
-class RepresentativeDataAdapter() :RecyclerView.Adapter<RepresentativeDataAdapter.RepViewHolder>(){
+class RepresentativeDataAdapter(private val rlist:List<Official>) :RecyclerView.Adapter<RepresentativeDataAdapter.RepViewHolder>(){
 
     inner class RepViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = RepresentativeCardBinding.bind(view)
@@ -22,10 +23,16 @@ class RepresentativeDataAdapter() :RecyclerView.Adapter<RepresentativeDataAdapte
     }
 
     override fun onBindViewHolder(holder: RepViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val current = rlist[position]
+        holder.binding.apply {
+
+            tvCourtType.text = current.party
+            tvRepresentativeName.text = current.name
+            tvPartyLine.text = current.party
+        }
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return rlist.size
     }
 }

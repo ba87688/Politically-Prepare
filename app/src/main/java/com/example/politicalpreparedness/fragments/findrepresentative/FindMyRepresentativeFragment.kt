@@ -16,7 +16,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
+import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
+import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -26,10 +30,11 @@ import kotlin.collections.ArrayList
 
 val MY_PERMISSIONS_REQUEST_LOCATION = 0
 
-class FindMyRepresentativeFragment : Fragment() {
+class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemClickListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var otherList:ArrayList<String>
 
+//    val args: FindMyRepresentativeFragmentArgs by navArgs()
 
     lateinit var binding: FragmentFindMyRepresentativeBinding
     override fun onCreateView(
@@ -40,9 +45,12 @@ class FindMyRepresentativeFragment : Fragment() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
-
-
-
+//
+//        val adapter = RepresentativeDataAdapter(args.representatives1.officials)
+//
+//        binding.recyclerviewRepresentatives.adapter =adapter
+//        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+//
 
 
 
@@ -206,6 +214,10 @@ class FindMyRepresentativeFragment : Fragment() {
             ),
             MY_PERMISSIONS_REQUEST_LOCATION
         )
+    }
+
+    override fun onItemClick(position: Int) {
+        TODO("Not yet implemented")
     }
 
 

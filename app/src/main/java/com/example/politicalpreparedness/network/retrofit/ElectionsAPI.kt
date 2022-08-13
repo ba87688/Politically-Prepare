@@ -1,6 +1,5 @@
 package com.example.politicalpreparedness.network.retrofit
 
-import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elections
 import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.util.Constants.API_KEY

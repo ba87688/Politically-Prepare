@@ -1,3 +1,3 @@
 package com.example.politicalpreparedness.models.representatives
 
-class NormalizedInput
+class Divisions

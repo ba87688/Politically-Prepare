@@ -1,3 +1,5 @@
 package com.example.politicalpreparedness.models.representatives
 
-class NormalizedInput
+data class Office(
+    val name: String,
+)

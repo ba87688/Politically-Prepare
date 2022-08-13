@@ -4,7 +4,6 @@ data class Official(
     val address: List<Addres>,
     val channels: List<Channel>,
     val emails: List<String>,
-    val geocodingSummaries: List<GeocodingSummary>,
     val name: String,
     val party: String,
     val phones: List<String>,

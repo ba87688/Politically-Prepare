@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
-import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
@@ -19,7 +17,6 @@ import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
-import com.example.politicalpreparedness.network.retrofit.RetrofitInstance
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,26 +56,6 @@ class LauncherFragment : Fragment() {
         val evan = viewModel.evan
         Log.i("TAG", "onCreateView: Evan is $evan")
 
-//        val database =  Room.databaseBuilder(requireContext(), ElectionDatabase::class.java, "elections_database").allowMainThreadQueries().build()
-//        val dao = db.currentElectionDao()
-        val election = Election("Evan","33","ridiculous","Octavious")
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-                dao.insert(election)
-                val g = dao.getElectionByID("33")
-                Log.i("MIRRORS", "onCreateView: $g")
-            }
-        }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -105,16 +82,16 @@ class LauncherFragment : Fragment() {
 
 
         var list1 = mutableListOf<Representatives>()
-        var e1:Representatives? = null
+        var e1: Representatives? = null
 //        val retro = RetrofitInstance.api
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 val i = retro.getRepresentatives()
-                val body = i.body()?.officials
+                val body = i.body()
 
-                val geo=body?.size
 
-                Log.i("man o man", "testing representatives data: list ${geo}")
+                e1 = i.body()
+                Log.i("man o man", "testing representatives data: list ${body?.offices?.get(0)?.name}")
 
                 withContext(Dispatchers.Main){
 
@@ -187,7 +164,7 @@ class LauncherFragment : Fragment() {
         binding.buttonFindRepresentatives.setOnClickListener {
             val nav = findNavController()
 
-            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment())
+//            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment(e1!!))
         }
 
 
