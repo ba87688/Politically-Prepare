@@ -39,6 +39,31 @@ class FindMyRepresentativeFragment : Fragment() {
         binding = FragmentFindMyRepresentativeBinding.inflate(inflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
 
         val spinner = binding.spinnerState
