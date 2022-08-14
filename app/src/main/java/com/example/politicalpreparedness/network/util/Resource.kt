@@ -1,4 +1,4 @@
-package com.example.politicalpreparedness.network.database
+package com.example.politicalpreparedness.network.util
 
 sealed class Resource<T>(val data: T? = null, val error: Throwable? = null) {
 

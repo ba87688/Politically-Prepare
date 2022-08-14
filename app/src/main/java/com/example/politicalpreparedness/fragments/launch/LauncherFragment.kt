@@ -56,8 +56,6 @@ class LauncherFragment : Fragment() {
         val binding = FragmentLauncherBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-
-
         val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
@@ -163,9 +161,10 @@ class LauncherFragment : Fragment() {
                 val i = retro.getElection()
                 val body = i.body()?.elections
                 list = body?.toMutableList()!!
-                for(election in list){
-                    dao.insert(election)
-                }
+                dao.insertElections(list)
+//                for(election in list){
+//                    dao.insert(election)
+//                }
 
                 Log.i("Ridiculous", "onCreateView: list ${list.toString()}")
                 Log.i("TAG", "onCreateView success: ${i} ")
@@ -188,6 +187,7 @@ class LauncherFragment : Fragment() {
 
         viewModel.currentElections.observe(viewLifecycleOwner, Observer { it ->
             Log.i("TAG", "onCreateView LIVE DATA: ${it.data?.size}")
+            Log.i("TAG", "onCreateView LIVE DATA: ${it.data}")
 
         })
 

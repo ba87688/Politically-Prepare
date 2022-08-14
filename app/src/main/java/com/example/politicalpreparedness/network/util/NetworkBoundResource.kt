@@ -1,6 +1,7 @@
 package com.example.politicalpreparedness.network.database
 
 
+import com.example.politicalpreparedness.network.util.Resource
 import kotlinx.coroutines.flow.*
 
 inline fun <ResultType, RequestType> networkBoundResource(

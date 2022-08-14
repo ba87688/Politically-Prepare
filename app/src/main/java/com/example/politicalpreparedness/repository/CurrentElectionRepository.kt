@@ -4,23 +4,31 @@ import androidx.lifecycle.LiveData
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.networkBoundResource
+import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CurrentElectionRepository @Inject constructor(val dao: CurrentElectionDao):CurrentElectionRepositoryInterface{
+class CurrentElectionRepository @Inject constructor(
+    val dao: CurrentElectionDao,
+    val retrofit: ElectionsAPI
+) : CurrentElectionRepositoryInterface {
 
     fun getCurrentElectionsFromDB() = networkBoundResource(
-        query = { dao.getAllElectionsFlow()},
-        fetch = { var elect: ArrayList<Election> = arrayListOf()
-                elect
-                },
-        saveFetchResult = {
+        query = { dao.getAllElectionsFlow() },
+        fetch = {
+            withContext(Dispatchers.IO) {
+                retrofit.getElection().body()?.elections
+            }
+        },
+        saveFetchResult = { electionsList ->
+                deleteAllElections()
+                insertElections(electionsList!!)
 
         }
     )
-
 
 
     override suspend fun getElections(): Result<List<Election>> {
@@ -29,13 +37,13 @@ class CurrentElectionRepository @Inject constructor(val dao: CurrentElectionDao)
 
 
     override suspend fun insert(election: Election) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.insert(election)
         }
     }
 
     override suspend fun delete(election: Election) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             dao.delete(election)
         }
     }
@@ -53,7 +61,20 @@ class CurrentElectionRepository @Inject constructor(val dao: CurrentElectionDao)
     }
 
     override fun getAllElectionsFlow(): Flow<List<Election>> {
-        return dao.getAllElectionsFlow()
+       return dao.getAllElectionsFlow()
+    }
+    override suspend fun insertElections(elections: List<Election>) {
+        withContext(Dispatchers.IO) {
+
+            dao.insertElections(elections)
+        }
+    }
+
+    override suspend fun deleteAllElections() {
+        withContext(Dispatchers.IO) {
+
+            dao.deleteAllElections()
+        }
     }
 
 

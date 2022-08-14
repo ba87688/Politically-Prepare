@@ -14,7 +14,9 @@ class CurrentElectionsViewModel @Inject constructor(
     : AndroidViewModel(application) {
 
     lateinit var evan:String
+
     val currentElections = repository.getCurrentElectionsFromDB().asLiveData()
+
 
     init {
         evan ="Evan"

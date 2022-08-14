@@ -12,8 +12,17 @@ interface CurrentElectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(election: Election)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertElections(elections: List<Election>)
+
     @Delete
     suspend fun delete(election: Election)
+
+    @Query("DELETE FROM current_elections")
+    suspend fun deleteAllElections()
+
+    @Query("SELECT * FROM current_elections")
+    fun getAllElectionsFlow(): Flow<List<Election>>
 
     @Query("SELECT * FROM current_elections WHERE :iid = id")
     fun getElectionByID(iid:String):Election
@@ -25,7 +34,21 @@ interface CurrentElectionDao {
     @Query("SELECT * FROM current_elections")
     fun getAllElecions(): LiveData<List<Election>>
 
-    @Query("SELECT * FROM current_elections")
-    fun getAllElectionsFlow(): Flow<List<Election>>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

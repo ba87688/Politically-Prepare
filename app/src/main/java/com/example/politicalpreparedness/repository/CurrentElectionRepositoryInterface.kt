@@ -26,4 +26,9 @@ interface CurrentElectionRepositoryInterface {
     fun getAllElectionsFlow(): Flow<List<Election>>
 
 
+    suspend fun insertElections(elections: List<Election>)
+
+    suspend fun deleteAllElections()
+
+
 }
