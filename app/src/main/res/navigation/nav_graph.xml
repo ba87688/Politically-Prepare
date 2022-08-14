@@ -44,5 +44,8 @@
         <action
             android:id="@+id/action_findMyRepresentativeFragment_to_electionDataDetail"
             app:destination="@id/electionDataDetail" />
+        <argument
+            android:name="representativeData"
+            app:argType="com.example.politicalpreparedness.models.representative.RepresentativesData" />
     </fragment>
 </navigation>

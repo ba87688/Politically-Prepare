@@ -16,25 +16,40 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
 import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeBinding
+import com.example.politicalpreparedness.models.representative.parseRepresentative
+import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 val MY_PERMISSIONS_REQUEST_LOCATION = 0
 
+@AndroidEntryPoint
 class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemClickListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var otherList:ArrayList<String>
 
-//    val args: FindMyRepresentativeFragmentArgs by navArgs()
+
+
+    @Inject
+    lateinit var retro: ElectionsAPI
+
+
+    val args: FindMyRepresentativeFragmentArgs by navArgs()
 
     lateinit var binding: FragmentFindMyRepresentativeBinding
     override fun onCreateView(
@@ -45,12 +60,12 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
-//
-//        val adapter = RepresentativeDataAdapter(args.representatives1.officials)
+
+//        val adapter = RepresentativeDataAdapter(args.representativeData)
 //
 //        binding.recyclerviewRepresentatives.adapter =adapter
 //        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
-//
+
 
 
 
@@ -105,14 +120,38 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
 
         binding.buttonFindMyRepresentative.setOnClickListener {
-            val snackbar = Snackbar
-                .make(
-                    requireActivity(),
-                    requireView(),
-                    "You need to give permission to find your location",
-                    Snackbar.LENGTH_LONG
-                )
-            snackbar.show()
+            val allFilled: Boolean = (binding.etAddressLine1.text.isEmpty() ||
+            binding.etAddressLine2.text.isEmpty() || binding.etCity.text.isEmpty()||
+            binding.etZipcode.text.isEmpty())
+            if(allFilled){
+                val snackbar = Snackbar
+                    .make( requireActivity(), requireView(),
+                        "You need to fill out all fileds.",
+                        Snackbar.LENGTH_LONG
+                    )
+                snackbar.show()
+
+
+            }else {
+                val address1 = binding.etAddressLine1.text.toString()
+                val address2 =  binding.etAddressLine2.text.toString()
+                val city = binding.etCity.text.toString()
+                val zipCode =  binding.etZipcode.text.toString()
+                val state = binding.spinnerState.selectedItem.toString()
+
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO){
+                         val repData =retro.getRepresentatives(address1.plus(address2),city,state,zipCode)
+                         val rep = parseRepresentative(repData.body()!!)
+
+                        withContext(Dispatchers.Main){
+                            Log.i("TAG", "onCreateView: ${rep.toString()}")
+                        }
+                    }
+                }
+
+
+            }
         }
         binding.buttonUseMyLocation.setOnClickListener {
 
@@ -144,20 +183,42 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             val zipcode = addresses.get(0).postalCode
                             Log.i("ZIP CODE", "onCreateView: $zipcode ")
                             Log.i("ZIP CODE", "onCreateView: $address ")
-                            Log.i("ZIP CODE", "onCreateView: $address0 ")
-                            Log.i("ZIP CODE", "onCreateView: $address1 ")
+                            Log.i("ZIP CODE", "onCreateView0: $address0 ")
+                            Log.i("ZIP CODE", "onCreateView1: $address1 ")
                             Log.i("ZIP CODE", "onCreateView: $city ")
+                            Log.i("ZIP CODE", "onCreateView: $state ")
 
-                            binding.etAddressLine1.setText(address0)
-                            binding.etAddressLine2.setText(address1)
-                            binding.etCity.setText(city)
-                            binding.spinnerState
-                            binding.etZipcode.setText(zipcode)
 
                             val c = otherList.indexOf(state)
                             Log.i("TAG", "onCreateView: state $state")
                             Log.i("TAG", "onCreateView: state $c")
                             binding.spinnerState.setSelection(c)
+
+
+
+
+                            lifecycleScope.launch {
+                                withContext(Dispatchers.IO){
+                                    val repData =retro.getRepresentatives(address0.plus(address1),city,state,zipcode)
+                                    Log.i("TAG", "onCreateView in s: ${repData.body()?.officials?.size}")
+
+                                    val rep = parseRepresentative(repData.body()!!)
+
+                                    withContext(Dispatchers.Main){
+                                        Log.i("TAG", "onCreateView in s: ${rep.toString()}")
+                                        Log.i("TAG", "onCreateView in s: ${rep.size}")
+                                        val adapter = RepresentativeDataAdapter(rep.toList())
+
+                                        binding.recyclerviewRepresentatives.adapter =adapter
+                                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+
+
+                                    }
+                                }
+                            }
+
+
+
 
                         }
 

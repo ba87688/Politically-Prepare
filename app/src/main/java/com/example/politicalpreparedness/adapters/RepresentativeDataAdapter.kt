@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.RepresentativeCardBinding
-import com.example.politicalpreparedness.models.representatives.Official
+import com.example.politicalpreparedness.models.representative.RepresentativeProfile
+import com.example.politicalpreparedness.models.representative.RepresentativesData
 
-class RepresentativeDataAdapter(private val rlist:List<Official>) :RecyclerView.Adapter<RepresentativeDataAdapter.RepViewHolder>(){
+class RepresentativeDataAdapter(private val rlist:List<RepresentativeProfile>) :RecyclerView.Adapter<RepresentativeDataAdapter.RepViewHolder>(){
 
     inner class RepViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = RepresentativeCardBinding.bind(view)
@@ -23,10 +24,10 @@ class RepresentativeDataAdapter(private val rlist:List<Official>) :RecyclerView.
     }
 
     override fun onBindViewHolder(holder: RepViewHolder, position: Int) {
-        val current = rlist[position]
+        val current = rlist.get(position)
         holder.binding.apply {
 
-            tvCourtType.text = current.party
+            tvCourtType.text = current.office
             tvRepresentativeName.text = current.name
             tvPartyLine.text = current.party
         }

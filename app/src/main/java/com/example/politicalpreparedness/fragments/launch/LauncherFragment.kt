@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
+import com.example.politicalpreparedness.models.representative.RepresentativesData
 import com.example.politicalpreparedness.models.representative.parseRepresentative
 import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
@@ -41,6 +42,7 @@ class LauncherFragment : Fragment() {
 
     private lateinit var viewModel: CurrentElectionsViewModel
 
+    var representativesData:RepresentativesData? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +50,7 @@ class LauncherFragment : Fragment() {
     ): View? {
         val binding = FragmentLauncherBinding.inflate(inflater)
         binding.lifecycleOwner = this
+
 
 
         val viewModelFactory = CurrentElectionsViewModelFactory ( db, application)
@@ -93,11 +96,10 @@ class LauncherFragment : Fragment() {
 
                 e1 = i.body()
 
-                val s = parseRepresentative(e1!!)
+                representativesData = RepresentativesData(parseRepresentative(e1!!))
 
-                Log.i("TAG", "the king has returned: $s")
-                Log.i("TAG", "the king has returned: ${s.toString()}")
-                Log.i("TAG", "the king has returned: ${s.size}")
+                Log.i("TAG", "the king has returned: $representativesData")
+                Log.i("TAG", "the king has returned: ${representativesData.toString()}")
 
 
                 withContext(Dispatchers.Main){
@@ -172,7 +174,7 @@ class LauncherFragment : Fragment() {
         binding.buttonFindRepresentatives.setOnClickListener {
             val nav = findNavController()
 
-//            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment(e1!!))
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment(representativesData!!))
         }
 
 
