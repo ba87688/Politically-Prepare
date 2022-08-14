@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
+import com.example.politicalpreparedness.models.representative.parseRepresentative
 import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
@@ -91,9 +92,16 @@ class LauncherFragment : Fragment() {
 
 
                 e1 = i.body()
-                Log.i("man o man", "testing representatives data: list ${body?.offices?.get(0)?.name}")
+
+                val s = parseRepresentative(e1!!)
+
+                Log.i("TAG", "the king has returned: $s")
+                Log.i("TAG", "the king has returned: ${s.toString()}")
+                Log.i("TAG", "the king has returned: ${s.size}")
+
 
                 withContext(Dispatchers.Main){
+
 
                 }
             }
