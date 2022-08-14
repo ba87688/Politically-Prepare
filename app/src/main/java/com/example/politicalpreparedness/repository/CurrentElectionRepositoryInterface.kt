@@ -1,31 +1,29 @@
-package com.example.politicalpreparedness.network.database
+package com.example.politicalpreparedness.repository
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.politicalpreparedness.models.Election
 import kotlinx.coroutines.flow.Flow
 
+interface CurrentElectionRepositoryInterface {
 
-@Dao
-interface CurrentElectionDao {
+    suspend fun getElections(): Result<List<Election>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
     suspend fun insert(election: Election)
 
-    @Delete
     suspend fun delete(election: Election)
 
-    @Query("SELECT * FROM current_elections WHERE :iid = id")
     fun getElectionByID(iid:String):Election
 
-
-    @Query("SELECT * FROM current_elections")
     fun getAllElections():List<Election>
 
-    @Query("SELECT * FROM current_elections")
     fun getAllElecions(): LiveData<List<Election>>
 
-    @Query("SELECT * FROM current_elections")
     fun getAllElectionsFlow(): Flow<List<Election>>
+
 
 }

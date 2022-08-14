@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,6 +20,7 @@ import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
+import com.example.politicalpreparedness.repository.CurrentElectionRepository
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +42,9 @@ class LauncherFragment : Fragment() {
     @Inject
     lateinit var dao:CurrentElectionDao
 
+    @Inject
+    lateinit var repo:CurrentElectionRepository
+
     private lateinit var viewModel: CurrentElectionsViewModel
 
     var representativesData:RepresentativesData? = null
@@ -53,12 +58,15 @@ class LauncherFragment : Fragment() {
 
 
 
-        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application)
+        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
         val evan = viewModel.evan
         Log.i("TAG", "onCreateView: Evan is $evan")
+
+
+
 
 
 
@@ -138,7 +146,14 @@ class LauncherFragment : Fragment() {
 
 
 
-        //testing retrofit
+
+
+
+
+
+
+
+            //testing retrofit
 
         var list = mutableListOf<Election>()
         var e:Elects? = null
@@ -148,6 +163,9 @@ class LauncherFragment : Fragment() {
                 val i = retro.getElection()
                 val body = i.body()?.elections
                 list = body?.toMutableList()!!
+                for(election in list){
+                    dao.insert(election)
+                }
 
                 Log.i("Ridiculous", "onCreateView: list ${list.toString()}")
                 Log.i("TAG", "onCreateView success: ${i} ")
@@ -163,6 +181,47 @@ class LauncherFragment : Fragment() {
         }
 
         Log.i("TAG", "onCreateView weeee: ${e} ")
+
+
+        //LIVE DATA
+
+
+        viewModel.currentElections.observe(viewLifecycleOwner, Observer { it ->
+            Log.i("TAG", "onCreateView LIVE DATA: ${it.data?.size}")
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
