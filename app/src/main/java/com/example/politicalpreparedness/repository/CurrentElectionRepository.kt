@@ -24,7 +24,7 @@ class CurrentElectionRepository @Inject constructor(
             }
         },
         saveFetchResult = { electionsList ->
-                deleteAllElections()
+//                deleteAllElections()
                 insertElections(electionsList!!)
 
         }

@@ -49,7 +49,7 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     lateinit var retro: ElectionsAPI
 
 
-    val args: FindMyRepresentativeFragmentArgs by navArgs()
+//    val args: FindMyRepresentativeFragmentArgs by navArgs()
 
     lateinit var binding: FragmentFindMyRepresentativeBinding
     override fun onCreateView(

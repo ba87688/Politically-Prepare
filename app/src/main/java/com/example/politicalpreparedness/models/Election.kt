@@ -12,7 +12,8 @@ data class Election(
     @PrimaryKey
     val id: String,
     val name: String,
-    val ocdDivisionId: String
+    val ocdDivisionId: String,
+    var saved: Boolean = false
 ):Parcelable
 
 @Parcelize

@@ -22,9 +22,6 @@
         android:id="@+id/electionDataList"
         android:name="com.example.politicalpreparedness.fragments.electionsdata.ElectionDataList"
         android:label="ElectionDataList" >
-        <argument
-            android:name="election_list"
-            app:argType="com.example.politicalpreparedness.models.Elects" />
         <action
             android:id="@+id/action_electionDataList_to_electionDataDetail"
             app:destination="@id/electionDataDetail" />
@@ -44,8 +41,5 @@
         <action
             android:id="@+id/action_findMyRepresentativeFragment_to_electionDataDetail"
             app:destination="@id/electionDataDetail" />
-        <argument
-            android:name="representativeData"
-            app:argType="com.example.politicalpreparedness.models.representative.RepresentativesData" />
     </fragment>
 </navigation>

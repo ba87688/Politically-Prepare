@@ -91,7 +91,7 @@
 
 
         <Button
-            android:id="@+id/button_find_representatives"
+            android:id="@+id/button_follow_election"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"

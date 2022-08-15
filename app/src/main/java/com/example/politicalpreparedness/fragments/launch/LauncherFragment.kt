@@ -47,7 +47,7 @@ class LauncherFragment : Fragment() {
 
     private lateinit var viewModel: CurrentElectionsViewModel
 
-    var representativesData:RepresentativesData? = null
+//    var representativesData:RepresentativesData? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +60,6 @@ class LauncherFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
-        val evan = viewModel.evan
-        Log.i("TAG", "onCreateView: Evan is $evan")
 
 
 
@@ -91,96 +89,99 @@ class LauncherFragment : Fragment() {
 
 
 
-        var list1 = mutableListOf<Representatives>()
-        var e1: Representatives? = null
-//        val retro = RetrofitInstance.api
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val i = retro.getRepresentatives()
-                val body = i.body()
-
-
-                e1 = i.body()
-
-                representativesData = RepresentativesData(parseRepresentative(e1!!))
-
-                Log.i("TAG", "the king has returned: $representativesData")
-                Log.i("TAG", "the king has returned: ${representativesData.toString()}")
-
-
-                withContext(Dispatchers.Main){
-
-
-                }
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //testing retrofit
-
-        var list = mutableListOf<Election>()
-        var e:Elects? = null
-//        val retro = RetrofitInstance.api
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                val i = retro.getElection()
-                val body = i.body()?.elections
-                list = body?.toMutableList()!!
-                dao.insertElections(list)
-//                for(election in list){
-//                    dao.insert(election)
+//        var list1 = mutableListOf<Representatives>()
+//        var e1: Representatives? = null
+////        val retro = RetrofitInstance.api
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val i = retro.getRepresentatives()
+//                val body = i.body()
+//
+//
+//                e1 = i.body()
+//
+//                representativesData = RepresentativesData(parseRepresentative(e1!!))
+//
+//                Log.i("TAG", "the king has returned: $representativesData")
+//                Log.i("TAG", "the king has returned: ${representativesData.toString()}")
+//
+//
+//                withContext(Dispatchers.Main){
+//
+//
 //                }
+//            }
+//        }
 
-                Log.i("Ridiculous", "onCreateView: list ${list.toString()}")
-                Log.i("TAG", "onCreateView success: ${i} ")
-                Log.i("TAG", "onCreateView success: ${i.isSuccessful} ")
-                if (i.body() != null) {
-                    Log.i("TAG", "onCreateView not null : ${i.body()} ")
 
-                }
-                withContext(Dispatchers.Main){
-                    e = Elects(body)
-                }
-            }
-        }
 
-        Log.i("TAG", "onCreateView weeee: ${e} ")
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            //testing retrofit
+//
+//        var list = mutableListOf<Election>()
+//        var e:Elects? = null
+////        val retro = RetrofitInstance.api
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val i = retro.getElection()
+//                val body = i.body()?.elections
+//                list = body?.toMutableList()!!
+//                dao.insertElections(list)
+//                var cu = dao.getAllElections()
+//                Log.i("TAG", "onCreateView cuddle1: $cu")
+//
+////                for(election in list){
+////                    dao.insert(election)
+////                }
+//
+//                Log.i("Ridiculous", "onCreateView: list ${list.toString()}")
+//                Log.i("TAG", "onCreateView success: ${i} ")
+//                Log.i("TAG", "onCreateView success: ${i.isSuccessful} ")
+//                if (i.body() != null) {
+//                    Log.i("TAG", "onCreateView not null : ${i.body()} ")
+//
+//                }
+//                withContext(Dispatchers.Main){
+//                    e = Elects(body)
+//                }
+//            }
+//        }
+//
+//        Log.i("TAG", "onCreateView weeee: ${e} ")
+//
 
         //LIVE DATA
 
@@ -226,14 +227,14 @@ class LauncherFragment : Fragment() {
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
 
-            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList(e!!))
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList())
 //            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToTestCollapseFragment())
         }
 
         binding.buttonFindRepresentatives.setOnClickListener {
             val nav = findNavController()
 
-            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment(representativesData!!))
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment())
         }
 
 

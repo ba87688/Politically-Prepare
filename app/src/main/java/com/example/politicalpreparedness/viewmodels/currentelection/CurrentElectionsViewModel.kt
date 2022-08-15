@@ -17,7 +17,7 @@ class CurrentElectionsViewModel @Inject constructor(
 
     val currentElections = repository.getCurrentElectionsFromDB().asLiveData()
 
-
+    val reposi = repository
     init {
         evan ="Evan"
     }
