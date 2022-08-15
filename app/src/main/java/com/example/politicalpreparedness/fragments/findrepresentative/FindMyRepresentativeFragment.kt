@@ -61,15 +61,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
 
 
-//        val adapter = RepresentativeDataAdapter(args.representativeData)
-//
-//        binding.recyclerviewRepresentatives.adapter =adapter
-//        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
-
-
-
-
-
 
 
 
