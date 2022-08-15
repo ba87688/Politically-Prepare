@@ -16,6 +16,7 @@ class CurrentElectionsViewModel @Inject constructor(
     lateinit var evan:String
 
     val currentElections = repository.getCurrentElectionsFromDB().asLiveData()
+    val savedElections = repository.getAllSavedElectionsFlow().asLiveData()
 
     val reposi = repository
     init {

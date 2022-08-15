@@ -91,10 +91,7 @@ class ElectionDataDetail : Fragment() {
 
                     withContext(Dispatchers.IO) {
                         val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = true)
-                        Log.i("TAG", "onCreateView: before saved list ${db.currentElectionDao().getAllElections()}")
                         db.currentElectionDao().update(updated)
-                        Log.i("TAG", "onCreateView: after saved list ${db.currentElectionDao().getAllElections()}")
-                        Log.i("TAG", "onCreateView: after all saved list ${db.currentElectionDao().getAllSavedElections()}")
 
 
                     }

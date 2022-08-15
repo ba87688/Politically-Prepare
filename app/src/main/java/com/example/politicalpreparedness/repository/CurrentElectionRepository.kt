@@ -35,6 +35,10 @@ class CurrentElectionRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
+    fun getAllSavedElectionsFlow():Flow<List<Election>>{
+        return dao.getAllSavedElectionsFlow()
+    }
+
 
     override suspend fun insert(election: Election) {
         withContext(Dispatchers.IO) {

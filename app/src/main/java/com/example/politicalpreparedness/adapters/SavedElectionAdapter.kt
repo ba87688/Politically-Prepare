@@ -3,40 +3,41 @@ package com.example.politicalpreparedness.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.databinding.RvUpcomingElectionListBinding
 import com.example.politicalpreparedness.models.Election
 
-class CurrentElectionAdapter (private val mlist:List<Election>, private val listener:OnItemClickListener): RecyclerView.Adapter<CurrentElectionAdapter.CEViewHolder>() {
+class SavedElectionAdapter (private val mlist:List<Election>, private val listener:OnItemClickListener): RecyclerView.Adapter<SavedElectionAdapter.SEViewHolder>() {
 
-    inner class CEViewHolder(view: View): RecyclerView.ViewHolder(view),View.OnClickListener{
+    inner class SEViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener{
+
         val binding = RvUpcomingElectionListBinding.bind(view)
+
 
         init {
             binding.root.setOnClickListener(this)
         }
         override fun onClick(p0: View?) {
             val position:Int = adapterPosition
-            if (position!=RecyclerView.NO_POSITION){
-                listener.onItemClick(position)
+            if (position!= RecyclerView.NO_POSITION){
+                listener.onItemClick2(position)
             }
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CEViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SEViewHolder {
 
 
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.rv_upcoming_election_list,parent,false)
-        return CEViewHolder(view)
+        return SEViewHolder(view)
 
 
     }
 
-    override fun onBindViewHolder(holder: CEViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SEViewHolder, position: Int) {
 
         val current = mlist[position]
         holder.binding.apply {
@@ -50,7 +51,7 @@ class CurrentElectionAdapter (private val mlist:List<Election>, private val list
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick2(position: Int)
     }
 
 

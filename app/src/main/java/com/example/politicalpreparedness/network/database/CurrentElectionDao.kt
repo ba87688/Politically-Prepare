@@ -31,7 +31,7 @@ interface CurrentElectionDao {
     fun getAllSavedElectionsFlow():Flow<List<Election>>
 
     @Query("SELECT * FROM current_elections WHERE saved =0 ")
-    fun getAllSavedElections():List<Election>
+    fun getAllUnSavedElections():List<Election>
     @Query("SELECT * FROM current_elections WHERE saved =1 ")
     fun getAllSavedElections2():List<Election>
 
