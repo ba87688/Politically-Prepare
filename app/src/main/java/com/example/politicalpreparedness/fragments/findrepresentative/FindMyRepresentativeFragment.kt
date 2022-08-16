@@ -80,6 +80,10 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         viewModel = ViewModelProvider(this,viewModelFactory).get(FindRepresentativeViewModel::class.java)
 
 
+        binding.nested.requestDisallowInterceptTouchEvent(true)
+
+
+
         otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
 
         val spinner = binding.spinnerState
