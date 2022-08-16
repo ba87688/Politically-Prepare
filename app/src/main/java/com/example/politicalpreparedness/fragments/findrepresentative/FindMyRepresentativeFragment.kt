@@ -181,10 +181,11 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
 
                             val c = otherList.indexOf(state)
-                            Log.i("TAG", "onCreateView: state $state")
-                            Log.i("TAG", "onCreateView: state $c")
                             binding.spinnerState.setSelection(c)
-
+                            binding.etAddressLine1.setText(addresses.get(0).subThoroughfare)
+                            binding.etAddressLine2.setText(addresses.get(0).thoroughfare)
+                            binding.etCity.setText(addresses.get(0).locality)
+                            binding.etZipcode.setText(addresses.get(0).postalCode)
 
 
 
