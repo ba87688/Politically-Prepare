@@ -144,7 +144,7 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
             if (c == true) {
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location ->
-                        Log.i("LOOL", "onCreateView:${location.longitude} ")
+//                        Log.i("LOOL", "onCreateView:${location.longitude} ")
                         if (location != null) {
                             Log.i("ZIP CODE", "onCreateView: ${location.longitude} ")
 

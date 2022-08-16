@@ -63,8 +63,8 @@ class LauncherFragment : Fragment() {
         //LIVE DATA
 
 
+
 //        Picasso.get().load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").into(binding.imageView);
-//        Glide.with(requireContext()).load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").circleCrop().into(binding.imageView)
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
