@@ -2,6 +2,7 @@ package com.example.politicalpreparedness.fragments.findrepresentative
 
 import android.Manifest
 import android.app.Activity
+import android.app.Application
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +26,12 @@ import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
 import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeBinding
 import com.example.politicalpreparedness.models.representative.parseRepresentative
+import com.example.politicalpreparedness.network.database.CurrentElectionDao
+import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
+import com.example.politicalpreparedness.repository.CurrentElectionRepository
+import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModel
+import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
@@ -48,10 +55,22 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     @Inject
     lateinit var retro: ElectionsAPI
 
+    @Inject
+    lateinit var db: ElectionDatabase
+    @Inject
+    lateinit var application: Application
+    @Inject
+    lateinit var dao: CurrentElectionDao
+    @Inject
+    lateinit var repo: CurrentElectionRepository
 
 //    val args: FindMyRepresentativeFragmentArgs by navArgs()
 
     lateinit var binding: FragmentFindMyRepresentativeBinding
+
+    private lateinit var viewModel:FindRepresentativeViewModel
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,9 +79,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
+        val viewModelFactory = FindRepresentativeViewModelFactory(db,application,repo)
 
-
-
+        viewModel = ViewModelProvider(this,viewModelFactory).get(FindRepresentativeViewModel::class.java)
 
 
 
@@ -172,13 +191,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             val state = addresses.get(0).adminArea
                             val country = addresses.get(0).countryName
                             val zipcode = addresses.get(0).postalCode
-                            Log.i("ZIP CODE", "onCreateView: $zipcode ")
-                            Log.i("ZIP CODE", "onCreateView: $address ")
-                            Log.i("ZIP CODE", "onCreateView0: $address0 ")
-                            Log.i("ZIP CODE", "onCreateView1: $address1 ")
-                            Log.i("ZIP CODE", "onCreateView: $city ")
-                            Log.i("ZIP CODE", "onCreateView: $state ")
-
 
                             val c = otherList.indexOf(state)
                             binding.spinnerState.setSelection(c)
@@ -187,29 +199,49 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             binding.etCity.setText(addresses.get(0).locality)
                             binding.etZipcode.setText(addresses.get(0).postalCode)
 
+                            viewModel.getRepresentatives(address0.plus(address1),city,state,zipcode)
+                            viewModel.representatives.observe(viewLifecycleOwner){ response->
+                                if(response==null){
+                                    val snackbar = Snackbar
+                                        .make( requireActivity(), requireView(),
+                                            "network issue.",
+                                            Snackbar.LENGTH_LONG
+                                        )
+                                    snackbar.show()
+
+                                }else{
+                                    val rep = parseRepresentative(response)
+                                    val adapter = RepresentativeDataAdapter(rep.toList())
+
+                                    binding.recyclerviewRepresentatives.adapter =adapter
+                                    binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
 
 
-                            lifecycleScope.launch {
-                                withContext(Dispatchers.IO){
-                                    val repData =retro.getRepresentatives(address0.plus(address1),city,state,zipcode)
-                                    Log.i("TAG", "onCreateView in s: ${repData.body()?.officials?.size}")
-
-                                    val rep = parseRepresentative(repData.body()!!)
-
-                                    withContext(Dispatchers.Main){
-                                        Log.i("TAG", "onCreateView in s: ${rep.toString()}")
-                                        Log.i("TAG", "onCreateView in s: ${rep.size}")
-                                        val adapter = RepresentativeDataAdapter(rep.toList())
-
-                                        binding.recyclerviewRepresentatives.adapter =adapter
-                                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
-
-
-                                    }
                                 }
+
+
                             }
 
 
+//                            lifecycleScope.launch {
+//                                withContext(Dispatchers.IO){
+//                                    val repData =retro.getRepresentatives(address0.plus(address1),city,state,zipcode)
+//                                    Log.i("TAG", "onCreateView in s: ${repData.body()?.officials?.size}")
+//
+//                                    val rep = parseRepresentative(repData.body()!!)
+//
+//                                    withContext(Dispatchers.Main){
+//                                        Log.i("TAG", "onCreateView in s: ${rep.toString()}")
+//                                        Log.i("TAG", "onCreateView in s: ${rep.size}")
+//                                        val adapter = RepresentativeDataAdapter(rep.toList())
+//
+//                                        binding.recyclerviewRepresentatives.adapter =adapter
+//                                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+//
+//
+//                                    }
+//                                }
+//                            }
 
 
                         }

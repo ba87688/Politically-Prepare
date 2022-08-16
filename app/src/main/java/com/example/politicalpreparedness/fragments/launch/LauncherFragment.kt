@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.models.Elects
@@ -23,6 +24,7 @@ import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -70,6 +72,9 @@ class LauncherFragment : Fragment() {
 //        })
 
 
+
+//        Picasso.get().load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").into(binding.imageView);
+//        Glide.with(requireContext()).load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").circleCrop().into(binding.imageView)
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()

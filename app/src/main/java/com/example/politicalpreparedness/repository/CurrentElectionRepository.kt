@@ -2,6 +2,7 @@ package com.example.politicalpreparedness.repository
 
 import androidx.lifecycle.LiveData
 import com.example.politicalpreparedness.models.Election
+import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.networkBoundResource
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
@@ -29,6 +30,17 @@ class CurrentElectionRepository @Inject constructor(
 
         }
     )
+
+    suspend fun getRepresentatives(address:String,city:String,state:String,zipcode:String):Representatives?{
+
+        val request = retrofit.getRepresentatives(address,city,state,zipcode)
+        if (request.isSuccessful){
+            return request.body()
+        }
+
+        return null
+
+    }
 
 
     override suspend fun getElections(): Result<List<Election>> {
