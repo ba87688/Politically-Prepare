@@ -49,8 +49,6 @@ class LauncherFragment : Fragment() {
 
     private lateinit var viewModel: CurrentElectionsViewModel
 
-//    var representativesData:RepresentativesData? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,14 +61,6 @@ class LauncherFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
         //LIVE DATA
-
-
-//        viewModel.currentElections.observe(viewLifecycleOwner, Observer { it ->
-//            Log.i("TAG", "onCreateView LIVE DATA: ${it.data?.size}")
-//            Log.i("TAG", "onCreateView LIVE DATA: ${it.data}")
-//
-//        })
-
 
 
 //        Picasso.get().load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").into(binding.imageView);

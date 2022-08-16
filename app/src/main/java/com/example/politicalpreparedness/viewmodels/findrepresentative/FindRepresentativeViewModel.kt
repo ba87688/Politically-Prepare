@@ -14,43 +14,20 @@ class FindRepresentativeViewModel @Inject constructor(
     val database: ElectionDatabase,
     application: Application,
     val repository: CurrentElectionRepository
-    ) : AndroidViewModel(application){
+) : AndroidViewModel(application) {
 
 
+    private val _representatives = MutableLiveData<Representatives?>()
+    val representatives: LiveData<Representatives?> = _representatives
 
 
-        private val _representatives = MutableLiveData<Representatives?>()
-        val representatives : LiveData<Representatives?> = _representatives
-
-
-    fun getRepresentatives(address:String,city:String,state:String,zipcode:String){
+    fun getRepresentatives(address: String, city: String, state: String, zipcode: String) {
 
         viewModelScope.launch {
-            val response = repository.getRepresentatives(address,city,state,zipcode)
+            val response = repository.getRepresentatives(address, city, state, zipcode)
             _representatives.postValue(response)
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

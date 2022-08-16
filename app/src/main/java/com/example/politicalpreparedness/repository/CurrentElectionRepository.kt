@@ -93,5 +93,14 @@ class CurrentElectionRepository @Inject constructor(
         }
     }
 
+    suspend fun update(election: Election){
+        withContext(Dispatchers.IO) {
+            dao.update(election)
+
+        }
+
+    }
+
+
 
 }

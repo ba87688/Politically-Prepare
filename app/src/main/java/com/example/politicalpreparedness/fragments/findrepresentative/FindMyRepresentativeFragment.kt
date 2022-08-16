@@ -50,8 +50,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var otherList:ArrayList<String>
 
-
-
     @Inject
     lateinit var retro: ElectionsAPI
 
@@ -63,8 +61,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     lateinit var dao: CurrentElectionDao
     @Inject
     lateinit var repo: CurrentElectionRepository
-
-//    val args: FindMyRepresentativeFragmentArgs by navArgs()
 
     lateinit var binding: FragmentFindMyRepresentativeBinding
 
@@ -84,19 +80,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         viewModel = ViewModelProvider(this,viewModelFactory).get(FindRepresentativeViewModel::class.java)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
 
         val spinner = binding.spinnerState
@@ -105,69 +88,58 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
             requireContext(),
             R.array.states,
             android.R.layout.simple_spinner_item
-        )
-            .also { adapter ->
-
+        ).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
                 spinner.onItemSelectedListener = object : AdapterView.OnItemClickListener,
                     AdapterView.OnItemSelectedListener {
                     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    }override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    }override fun onNothingSelected(p0: AdapterView<*>?) {
                         TODO("Not yet implemented")
                     }
-
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        Log.i("TAG", "onItemSelected: ind $position ")
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                        TODO("Not yet implemented")
-                    }
-
                 }
             }
 
 
-
+        //FIND MY REPRESENTATIVE BUTTON via address typed
         binding.buttonFindMyRepresentative.setOnClickListener {
-            val allFilled: Boolean = (binding.etAddressLine1.text.isEmpty() ||
-            binding.etAddressLine2.text.isEmpty() || binding.etCity.text.isEmpty()||
-            binding.etZipcode.text.isEmpty())
+            val allFilled: Boolean = (binding.etAddressLine1.text.isEmpty() || binding.etAddressLine2.text.isEmpty() || binding.etCity.text.isEmpty()|| binding.etZipcode.text.isEmpty())
             if(allFilled){
-                val snackbar = Snackbar
-                    .make( requireActivity(), requireView(),
+                Snackbar.make( requireActivity(), requireView(),
                         "You need to fill out all fileds.",
-                        Snackbar.LENGTH_LONG
-                    )
-                snackbar.show()
-
-
+                        Snackbar.LENGTH_LONG).show()
             }else {
                 val address1 = binding.etAddressLine1.text.toString()
                 val address2 =  binding.etAddressLine2.text.toString()
                 val city = binding.etCity.text.toString()
                 val zipCode =  binding.etZipcode.text.toString()
                 val state = binding.spinnerState.selectedItem.toString()
+                viewModel.getRepresentatives(address1.plus(address2),city,zipCode,state)
 
-                lifecycleScope.launch {
-                    withContext(Dispatchers.IO){
-                         val repData =retro.getRepresentatives(address1.plus(address2),city,state,zipCode)
-                         val rep = parseRepresentative(repData.body()!!)
+                //OBSERVE LIVE DATA
+                viewModel.representatives.observe(viewLifecycleOwner){ response->
+                    if(response==null){
+                        Snackbar.make( requireActivity(), requireView(),
+                            "network issue.",
+                            Snackbar.LENGTH_LONG).show()
 
-                        withContext(Dispatchers.Main){
-                            Log.i("TAG", "onCreateView: ${rep.toString()}")
-                        }
+                    }else{
+                        val rep = parseRepresentative(response)
+                        val adapter = RepresentativeDataAdapter(rep.toList())
+
+                        binding.recyclerviewRepresentatives.adapter =adapter
+                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
                     }
                 }
-
-
             }
         }
+
+        //USE MY LOCATION BUTTON - finds rep via location
         binding.buttonUseMyLocation.setOnClickListener {
 
             checkLocationPermission()
             val c = checkLocationPermission()
-            Log.i("Messa", "onCreateView: ${c}")
 
             if (c == true) {
                 fusedLocationClient.lastLocation
@@ -184,12 +156,10 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             addresses =
                                 geocoder.getFromLocation(location.latitude, location.longitude, 1)
 
-                            val address = addresses.get(0).getAddressLine(0)
                             val address0 = addresses.get(0).subThoroughfare
                             val address1 = addresses.get(0).thoroughfare
                             val city = addresses.get(0).locality
                             val state = addresses.get(0).adminArea
-                            val country = addresses.get(0).countryName
                             val zipcode = addresses.get(0).postalCode
 
                             val c = otherList.indexOf(state)
@@ -200,14 +170,12 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             binding.etZipcode.setText(addresses.get(0).postalCode)
 
                             viewModel.getRepresentatives(address0.plus(address1),city,state,zipcode)
+                            //OBSERVE LIVE DATA
                             viewModel.representatives.observe(viewLifecycleOwner){ response->
                                 if(response==null){
-                                    val snackbar = Snackbar
-                                        .make( requireActivity(), requireView(),
+                                    Snackbar.make( requireActivity(), requireView(),
                                             "network issue.",
-                                            Snackbar.LENGTH_LONG
-                                        )
-                                    snackbar.show()
+                                            Snackbar.LENGTH_LONG).show()
 
                                 }else{
                                     val rep = parseRepresentative(response)
@@ -215,37 +183,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
                                     binding.recyclerviewRepresentatives.adapter =adapter
                                     binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
-
-
                                 }
-
-
                             }
-
-
-//                            lifecycleScope.launch {
-//                                withContext(Dispatchers.IO){
-//                                    val repData =retro.getRepresentatives(address0.plus(address1),city,state,zipcode)
-//                                    Log.i("TAG", "onCreateView in s: ${repData.body()?.officials?.size}")
-//
-//                                    val rep = parseRepresentative(repData.body()!!)
-//
-//                                    withContext(Dispatchers.Main){
-//                                        Log.i("TAG", "onCreateView in s: ${rep.toString()}")
-//                                        Log.i("TAG", "onCreateView in s: ${rep.size}")
-//                                        val adapter = RepresentativeDataAdapter(rep.toList())
-//
-//                                        binding.recyclerviewRepresentatives.adapter =adapter
-//                                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
-//
-//
-//                                    }
-//                                }
-//                            }
-
-
                         }
-
                     }
             }
 

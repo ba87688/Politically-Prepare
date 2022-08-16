@@ -26,7 +26,6 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
-
 class ElectionDataDetail : Fragment() {
     val args : ElectionDataDetailArgs by navArgs()
 
@@ -61,49 +60,24 @@ class ElectionDataDetail : Fragment() {
         setLinks()
 
 
-        val status = args.election.saved==true
-        if (status){
-            binding.buttonFollowElection.text="Unfollow Election"
+        binding.buttonFollowElection.text= if (args.election.saved){
+            "Unfollow Election" }else{"Follow Election"}
 
-        }else{
-            binding.buttonFollowElection.text="Follow Election"
-
-        }
 
         binding.buttonFollowElection.setOnClickListener {
-            Log.i("TAG", "onCreateView: before saved ${args.election} ")
-            Log.i("TAG", "onCreateView: after saved ${args.election}")
             //if saved, unsave
-            if(args.election.saved==true){
-                lifecycleScope.launch {
-
-                    withContext(Dispatchers.IO) {
-                        val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = false)
-
-                        db.currentElectionDao().update(updated)
-
-                    }}
+            if(args.election.saved){
+                val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = false)
+                viewModel.update(updated)
 
                 binding.buttonFollowElection.text="Follow Election"
 
             }else{
-                lifecycleScope.launch {
+                val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = true)
+                viewModel.update(updated)
 
-                    withContext(Dispatchers.IO) {
-                        val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = true)
-                        db.currentElectionDao().update(updated)
-
-
-                    }
-                }
                 binding.buttonFollowElection.text="Unfollow Election"
-
-
             }
-
-
-
-
         }
         return binding.root
     }

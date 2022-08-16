@@ -18,7 +18,6 @@ fun parseRepresentative( rep: Representatives):MutableList<RepresentativeProfile
 
         //GET PHOTO, FACEBOOK AND TWITTER from REP, if NOT NULL
         if (currentRep.photoUrl!=null) {
-            Log.i("TAG", "onCreateView: photo ${currentRep.photoUrl}")
             photo = currentRep.photoUrl
         }
         if (currentRep.channels!=null) {
@@ -60,7 +59,6 @@ fun parseRepresentative( rep: Representatives):MutableList<RepresentativeProfile
 
                 title=rep.offices.get(j).name
             }else{
-                Log.i("TIGER1", "no")
 
             }
         }
