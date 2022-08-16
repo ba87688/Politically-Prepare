@@ -4,18 +4,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_marginStart="3dp"-->
-<!--        android:layout_marginTop="4dp"-->
-<!--        android:layout_marginEnd="3dp"-->
-<!--        android:layout_marginBottom="4dp"-->
-<!--        app:cardBackgroundColor="@color/white"-->
-<!--        app:cardCornerRadius="8dp"-->
-<!--        app:cardElevation="8dp"-->
-<!--        app:cardMaxElevation="10dp"-->
-<!--        app:cardPreventCornerOverlap="true">-->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="4dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:cardMaxElevation="10dp"
+        app:cardPreventCornerOverlap="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -92,5 +92,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_representative_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    </androidx.cardview.widget.CardView>-->
+    </androidx.cardview.widget.CardView>
 </layout>
