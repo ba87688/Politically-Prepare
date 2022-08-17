@@ -22,13 +22,17 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener,  SavedElectionAdapter.OnItemClickListener{
+class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener,
+    SavedElectionAdapter.OnItemClickListener {
 
     private lateinit var viewModel: CurrentElectionsViewModel
+
     @Inject
     lateinit var db: ElectionDatabase
+
     @Inject
     lateinit var application: Application
+
     @Inject
     lateinit var repo: CurrentElectionRepository
 
@@ -36,35 +40,35 @@ class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener,
     lateinit var list: List<Election>
     lateinit var saved: List<Election>
 
-//    val args: ElectionDataListArgs by navArgs()
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentElectionDataListBinding.inflate(inflater)
-        binding.lifecycleOwner=this
+        binding.lifecycleOwner = this
 
-        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
+        viewModel = ViewModelProvider(this, CurrentElectionsViewModelFactory(db, application, repo))
+                .get(CurrentElectionsViewModel::class.java)
 
         //CURRENT elections
         viewModel.currentElections.observe(viewLifecycleOwner, Observer { it ->
-            list = it.data!!
-            val currentElectionAdapter = CurrentElectionAdapter(it.data!!, this)
-            binding.rvUpcomingElections.adapter =currentElectionAdapter
-
+            val data = it.data
+            if(data!=null){
+                list=data
+                val currentElectionAdapter = CurrentElectionAdapter(data, this)
+                binding.rvUpcomingElections.adapter = currentElectionAdapter
+            }
         })
 
         //SAVED elections
-        viewModel.savedElections.observe(viewLifecycleOwner, Observer { it->
-            saved = it!!
-            val savedElectionAdapter = SavedElectionAdapter(it!!, this)
-            binding.rvCurrentElections.adapter = savedElectionAdapter
-
-
+        viewModel.savedElections.observe(viewLifecycleOwner, Observer { it ->
+            val data = it
+            if (data != null) {
+                saved=data
+                val savedElectionAdapter = SavedElectionAdapter(data, this)
+                binding.rvCurrentElections.adapter = savedElectionAdapter
+            }
         })
 
 
@@ -77,14 +81,22 @@ class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener,
     override fun onItemClick(position: Int) {
         val selectedElection = list.get(position)
         val nav = findNavController()
-        nav.navigate(ElectionDataListDirections.actionElectionDataListToElectionDataDetail(selectedElection))
+        nav.navigate(
+            ElectionDataListDirections.actionElectionDataListToElectionDataDetail(
+                selectedElection
+            )
+        )
 
     }
 
     override fun onItemClick2(position: Int) {
         val selectedElection = saved.get(position)
         val nav = findNavController()
-        nav.navigate(ElectionDataListDirections.actionElectionDataListToElectionDataDetail(selectedElection))
+        nav.navigate(
+            ElectionDataListDirections.actionElectionDataListToElectionDataDetail(
+                selectedElection
+            )
+        )
 
 
     }

@@ -53,6 +53,7 @@ class ElectionDataDetail : Fragment() {
 
 
         binding.tvDateOfElection.text = args.election.electionDay
+
         binding.tvElectionTitle.text = args.election.name
 
 
