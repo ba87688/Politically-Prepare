@@ -45,8 +45,8 @@ class RepresentativeDataAdapter(private val rlist:List<RepresentativeProfile>) :
                 val originalUrl = current.photo.toString()
                 Log.i("TAG", "onBindViewHolder: $originalUrl")
 
-                val url = originalUrl.replace("http://", "https://")
-                Glide.with(root).asBitmap().load(url).placeholder(R.drawable.ic_profile)
+//                val url = originalUrl.replace("http://", "https://")
+                Glide.with(root).asBitmap().load(originalUrl).placeholder(R.drawable.ic_profile)
                     .circleCrop().into(ivRepresentativePicture)
 
             }

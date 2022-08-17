@@ -24,5 +24,11 @@ interface ElectionsAPI {
 
     ) : Response<Representatives>
 
+    @GET("/civicinfo/v2/representatives")
+    suspend fun getRepresentativesViaAddress(
+        @Query("address") address: String = "28166 st louise dr",
+        @Query("key") apiKey: String = "$API_KEY"
+
+    ) : Response<Representatives>
 
 }

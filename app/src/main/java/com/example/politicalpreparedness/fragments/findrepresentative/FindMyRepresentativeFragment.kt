@@ -15,7 +15,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
@@ -32,6 +34,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -90,6 +93,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
             spinner.onItemSelectedListener = object : AdapterView.OnItemClickListener,
                 AdapterView.OnItemSelectedListener {
                 override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView: $state")
                 }
 
                 override fun onItemSelected(
@@ -98,10 +103,13 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                     position: Int,
                     id: Long
                 ) {
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView1: $state")
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    TODO("Not yet implemented")
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView2: $state")
                 }
             }
         }
@@ -117,14 +125,19 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                     "You need to fill out all fileds.",
                     Snackbar.LENGTH_LONG
                 ).show()
+                val state = binding.spinnerState.selectedItem.toString()
+                Log.i("TAG", "onCreateView1: $state")
             } else {
                 val address1 = binding.etAddressLine1.text.toString()
                 val address2 = binding.etAddressLine2.text.toString()
                 val city = binding.etCity.text.toString()
                 val zipCode = binding.etZipcode.text.toString()
                 val state = binding.spinnerState.selectedItem.toString()
+                Log.i("TAG", "onCreateView: $state")
+                val addressToBeSent = address1.plus(" ").plus(address2).plus(" ").plus(city).plus(" ").plus(state).plus(" ").plus(zipCode)
 
-                viewModel.getRepresentativeProfiles(address1.plus(address2), city, zipCode, state)
+                viewModel.getRepresentativesViaAddress(addressToBeSent)
+//                viewModel.getRepresentativeProfiles(address1.plus(" ").plus(address2), city, zipCode, state)
 
 
             }
@@ -162,13 +175,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                         binding.etZipcode.setText(addresses.get(0).postalCode)
 
 
+                        val addressToBeSent = address0.plus(" ").plus(address1).plus(" ").plus(city).plus(" ").plus(state).plus(" ").plus(zipcode)
 
-                        viewModel.getRepresentativeProfiles(
-                            address0.plus(address1),
-                            city,
-                            state,
-                            zipcode
-                        )
+                        viewModel.getRepresentativesViaAddress(addressToBeSent)
 
 
                     }

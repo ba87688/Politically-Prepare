@@ -31,9 +31,20 @@ class CurrentElectionRepository @Inject constructor(
         }
     )
 
-    suspend fun getRepresentatives(address:String,city:String,state:String,zipcode:String):Representatives?{
+//    suspend fun getRepresentatives(address:String,city:String,state:String,zipcode:String):Representatives?{
+//
+//        val request = retrofit.getRepresentatives(address,city,state,zipcode)
+//        if (request.isSuccessful){
+//            return request.body()
+//        }
+//
+//        return null
+//
+//    }
 
-        val request = retrofit.getRepresentatives(address,city,state,zipcode)
+    suspend fun getRepresentativesViaAddress(address:String):Representatives?{
+
+        val request = retrofit.getRepresentativesViaAddress(address)
         if (request.isSuccessful){
             return request.body()
         }
@@ -41,7 +52,6 @@ class CurrentElectionRepository @Inject constructor(
         return null
 
     }
-
 
     override suspend fun getElections(): Result<List<Election>> {
         TODO("Not yet implemented")
