@@ -68,7 +68,8 @@ class LauncherFragment : Fragment() {
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
-            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList())
+//            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToElectionDataList())
+            nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFind())
         }
         binding.buttonFindRepresentatives.setOnClickListener {
             val nav = findNavController()

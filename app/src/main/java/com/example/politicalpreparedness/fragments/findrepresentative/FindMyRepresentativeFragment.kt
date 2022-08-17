@@ -25,6 +25,7 @@ import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
 import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeBinding
+import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeMotionLayoutBinding
 import com.example.politicalpreparedness.models.representative.parseRepresentative
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
@@ -62,7 +63,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     @Inject
     lateinit var repo: CurrentElectionRepository
 
-    lateinit var binding: FragmentFindMyRepresentativeBinding
+//    lateinit var binding: FragmentFindMyRepresentativeBinding
+    lateinit var binding: FragmentFindMyRepresentativeMotionLayoutBinding
 
     private lateinit var viewModel:FindRepresentativeViewModel
 
@@ -71,16 +73,13 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFindMyRepresentativeBinding.inflate(inflater)
+        binding = FragmentFindMyRepresentativeMotionLayoutBinding.inflate(inflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
 
         val viewModelFactory = FindRepresentativeViewModelFactory(db,application,repo)
 
         viewModel = ViewModelProvider(this,viewModelFactory).get(FindRepresentativeViewModel::class.java)
-
-
-        binding.nested.requestDisallowInterceptTouchEvent(true)
 
 
 
@@ -132,8 +131,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                         val rep = parseRepresentative(response)
                         val adapter = RepresentativeDataAdapter(rep.toList())
 
-                        binding.recyclerviewRepresentatives.adapter =adapter
-                        binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+                        binding.recyclerviewRepresentativesTwo.adapter =adapter
+                        binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
                     }
                 }
             }
@@ -185,8 +184,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                                     val rep = parseRepresentative(response)
                                     val adapter = RepresentativeDataAdapter(rep.toList())
 
-                                    binding.recyclerviewRepresentatives.adapter =adapter
-                                    binding.recyclerviewRepresentatives.layoutManager = LinearLayoutManager(requireContext())
+                                    binding.recyclerviewRepresentativesTwo.adapter =adapter
+                                    binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
                                 }
                             }
                         }

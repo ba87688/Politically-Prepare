@@ -34,7 +34,7 @@
 
 
                     <EditText
-                        android:id="@+id/et_address_line1"
+                        android:id="@+id/et_address_line14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -45,50 +45,50 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
-                        android:id="@+id/et_address_line2"
+                        android:id="@+id/et_address_line24"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:ems="10"
                         android:hint="@string/address2"
                         android:inputType="textPersonName"
-                        app:layout_constraintStart_toStartOf="@+id/et_address_line1"
-                        app:layout_constraintTop_toBottomOf="@+id/et_address_line1" />
+                        app:layout_constraintStart_toStartOf="@+id/et_address_line14"
+                        app:layout_constraintTop_toBottomOf="@+id/et_address_line14" />
 
                     <EditText
-                        android:id="@+id/et_city"
+                        android:id="@+id/et_city1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:ems="10"
                         android:hint="@string/city"
                         android:inputType="textPersonName"
-                        app:layout_constraintStart_toStartOf="@+id/et_address_line2"
-                        app:layout_constraintTop_toBottomOf="@+id/et_address_line2" />
+                        app:layout_constraintStart_toStartOf="@+id/et_address_line24"
+                        app:layout_constraintTop_toBottomOf="@+id/et_address_line24" />
 
                     <Spinner
-                        android:id="@+id/spinner_state"
+                        android:id="@+id/spinner_state1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
 
-                        app:layout_constraintBottom_toBottomOf="@+id/et_city"
+                        app:layout_constraintBottom_toBottomOf="@+id/et_city1"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/et_address_line2" />
+                        app:layout_constraintTop_toBottomOf="@+id/et_address_line24" />
 
                     <EditText
-                        android:id="@+id/et_zipcode"
+                        android:id="@+id/et_zipcode5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:ems="10"
                         android:hint="@string/zip_code"
                         android:inputType="textPersonName"
-                        app:layout_constraintStart_toStartOf="@+id/et_city"
-                        app:layout_constraintTop_toBottomOf="@+id/et_city" />
+                        app:layout_constraintStart_toStartOf="@+id/et_city1"
+                        app:layout_constraintTop_toBottomOf="@+id/et_city1" />
 
                     <Button
-                        android:id="@+id/button_find_my_representative"
+                        android:id="@+id/button_find_my_representative6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -96,10 +96,10 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/et_zipcode" />
+                        app:layout_constraintTop_toBottomOf="@+id/et_zipcode5" />
 
                     <Button
-                        android:id="@+id/button_use_my_location"
+                        android:id="@+id/button_use_my_location7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -107,7 +107,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/button_find_my_representative" />
+                        app:layout_constraintTop_toBottomOf="@+id/button_find_my_representative6" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -36,7 +36,7 @@
                 android:id="@+id/tv_title_current_election"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/margin_bottom_tv_upcoming_election"
                 android:gravity="center"
                 android:textSize="@dimen/tv_title_size_current_election"
                 android:textStyle="normal|italic"
