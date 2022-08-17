@@ -6,15 +6,12 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="@dimen/height_current_election_card_layout"
+        android:layout_margin="@dimen/margin_card_layout"
         app:cardBackgroundColor="@color/ivory"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardMaxElevation="10dp"
+        app:cardCornerRadius="@dimen/corner_radius_card_layout"
+        app:cardElevation="@dimen/elevation_card_layout"
+        app:cardMaxElevation="@dimen/max_elevation_card_layout"
         app:cardPreventCornerOverlap="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="@dimen/tv_title_size_current_election"
                 app:layout_constraintBottom_toTopOf="@+id/tv_title_current_election"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:textSize="18sp"
+                android:textSize="@dimen/tv_title_size_current_election"
                 android:textStyle="normal|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

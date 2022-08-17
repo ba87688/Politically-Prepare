@@ -14,7 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_upcoming_elections"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/layout_height_current_election"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -24,7 +24,7 @@
             <TextView
                 android:id="@+id/tv_upcoming_elections"
                 android:layout_width="match_parent"
-                android:textSize="23sp"
+                android:textSize="@dimen/text_size_current_election_title"
                 android:textStyle="bold"                android:layout_height="wrap_content"
                 android:text="@string/upcoming_elections"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,8 +35,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_upcoming_elections"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="1dp"
+                android:layout_height="@dimen/layout_height_rv_current_election"
+                android:layout_marginTop="@dimen/margin_top_rv_current_election"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -49,7 +49,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_current_elections"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/layout_height_current_election"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/current_elections"
-                android:textSize="23sp"
+                android:textSize="@dimen/text_size_current_election_title"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -72,8 +72,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_current_elections"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="1dp"
+                android:layout_height="@dimen/layout_height_rv_current_election"
+                android:layout_marginTop="@dimen/margin_top_rv_current_election"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

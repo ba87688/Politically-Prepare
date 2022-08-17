@@ -1,6 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_padding">8dp</dimen>
+    <dimen name="election_title_text_size">22sp</dimen>
+    <dimen name="date_of_election_title_margin_left_and_right">16dp</dimen>
+    <dimen name="margin_top_election_date">8dp</dimen>
+    <dimen name="text_size_election_date">19sp</dimen>
+    <dimen name="margin_top_election_data">16dp</dimen>
+    <dimen name="margin_end_election_data">16dp</dimen>
+    <dimen name="text_size_election_data">18sp</dimen>
+    <dimen name="margin_bottom_election_data_button">40dp</dimen>
+    <dimen name="margin_start_election_data">16dp</dimen>
+    <dimen name="text_size_title_election_data">21sp</dimen>
+    <dimen name="election_top_from_title_election_data">52dp</dimen>
+    <dimen name="text_size_current_election_title">23sp</dimen>
+    <dimen name="layout_height_current_election">0dp</dimen>
+    <dimen name="rv_height_current_election">0dp</dimen>
+    <dimen name="margin_top_rv_current_election">5dp</dimen>
+    <dimen name="layout_height_rv_current_election">0dp</dimen>
+    <dimen name="margin_imageview_launcher">60dp</dimen>
+    <dimen name="margin_button_launcher">16dp</dimen>
+    <dimen name="margin_bottom_button_launcher">40dp</dimen>
+    <dimen name="margin_end_fr_button_launcher">16dp</dimen>
+    <dimen name="margin_start_fr_button_launcher">16dp</dimen>
+    <dimen name="height_card_layout">100dp</dimen>
+    <dimen name="margin_card_layout">4dp</dimen>
+    <dimen name="corner_radius_card_layout">8dp</dimen>
+    <dimen name="elevation_card_layout">8dp</dimen>
+    <dimen name="max_elevation_card_layout">10dp</dimen>
+    <dimen name="image_width_card_layout">80dp</dimen>
+    <dimen name="image_height_card_layout">80dp</dimen>
+    <dimen name="image_twitter_width_card_layou">35dp</dimen>
+    <dimen name="image_twitter_height_card_layou">35dp</dimen>
+    <dimen name="image_twitter_margin_end_card_layou">8dp</dimen>
+    <dimen name="image_width_card_layout_">4dp</dimen>
+    <dimen name="small_images_width_card_layout">35dp</dimen>
+    <dimen name="small_images_height_card_layout">35dp</dimen>
+    <dimen name="text_size_tv_house_type">19sp</dimen>
+    <dimen name="margin_start_tv_card_layout">8dp</dimen>
+    <dimen name="text_size_rep_name_card_layout">16sp</dimen>
+    <dimen name="height_current_election_card_layout">80dp</dimen>
+    <dimen name="tv_title_size_current_election">18sp</dimen>
 
     <!-- TODO: Add necessary dimension values -->s
 
