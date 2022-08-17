@@ -1,7 +1,6 @@
 package com.example.politicalpreparedness.fragments.findrepresentative
 
 import android.Manifest
-import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageManager
 import android.location.Address
@@ -43,7 +42,6 @@ val MY_PERMISSIONS_REQUEST_LOCATION = 0
 class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemClickListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var otherList:ArrayList<String>
-
     @Inject
     lateinit var retro: ElectionsAPI
     @Inject
@@ -67,10 +65,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         binding = FragmentFindMyRepresentativeMotionLayoutBinding.inflate(inflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-
-        val viewModelFactory = FindRepresentativeViewModelFactory(db,application,repo)
-
-        viewModel = ViewModelProvider(this,viewModelFactory).get(FindRepresentativeViewModel::class.java)
+        viewModel = ViewModelProvider(this,FindRepresentativeViewModelFactory(db,application,repo))
+            .get(FindRepresentativeViewModel::class.java)
 
 
 
@@ -78,7 +74,7 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
         val spinner = binding.spinnerState
 
-        val c = ArrayAdapter.createFromResource(
+        ArrayAdapter.createFromResource(
             requireContext(),
             R.array.states,
             android.R.layout.simple_spinner_item
@@ -86,8 +82,7 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = adapter
                 spinner.onItemSelectedListener = object : AdapterView.OnItemClickListener,
-                    AdapterView.OnItemSelectedListener {
-                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    AdapterView.OnItemSelectedListener { override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     }override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     }override fun onNothingSelected(p0: AdapterView<*>?) {
                         TODO("Not yet implemented")
@@ -109,39 +104,24 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                 val city = binding.etCity.text.toString()
                 val zipCode =  binding.etZipcode.text.toString()
                 val state = binding.spinnerState.selectedItem.toString()
-                viewModel.getRepresentatives(address1.plus(address2),city,zipCode,state)
 
-                //OBSERVE LIVE DATA
-                viewModel.representatives.observe(viewLifecycleOwner){ response->
-                    if(response==null){
-                        Snackbar.make( requireActivity(), requireView(),
-                            "network issue.",
-                            Snackbar.LENGTH_LONG).show()
+                viewModel.getRepresentativeProfiles(address1.plus(address2),city,zipCode,state)
 
-                    }else{
-                        val rep = parseRepresentative(response)
-                        val adapter = RepresentativeDataAdapter(rep.toList())
 
-                        binding.recyclerviewRepresentativesTwo.adapter =adapter
-                        binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
-                    }
-                }
+
             }
+
         }
 
         //USE MY LOCATION BUTTON - finds rep via location
         binding.buttonUseMyLocation.setOnClickListener {
 
             checkLocationPermission()
-            val c = checkLocationPermission()
+            val permissionForLocationGiven = checkLocationPermission()
 
-            if (c == true) {
-                fusedLocationClient.lastLocation
-                    .addOnSuccessListener { location ->
-//                        Log.i("LOOL", "onCreateView:${location.longitude} ")
+            if (permissionForLocationGiven) {
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                         if (location != null) {
-                            Log.i("ZIP CODE", "onCreateView: ${location.longitude} ")
-
                             // use your location object
                             // get latitude , longitude and other info from this
                             val geocoder: Geocoder
@@ -163,29 +143,37 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                             binding.etCity.setText(addresses.get(0).locality)
                             binding.etZipcode.setText(addresses.get(0).postalCode)
 
-                            viewModel.getRepresentatives(address0.plus(address1),city,state,zipcode)
-                            //OBSERVE LIVE DATA
-                            viewModel.representatives.observe(viewLifecycleOwner){ response->
-                                if(response==null){
-                                    Snackbar.make( requireActivity(), requireView(),
-                                            "network issue.",
-                                            Snackbar.LENGTH_LONG).show()
 
-                                }else{
-                                    val rep = parseRepresentative(response)
-                                    val adapter = RepresentativeDataAdapter(rep.toList())
 
-                                    binding.recyclerviewRepresentativesTwo.adapter =adapter
-                                    binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
-                                }
-                            }
+                            viewModel.getRepresentativeProfiles(address0.plus(address1),city,state,zipcode)
+
+
                         }
                     }
             }
 
         }
+        viewModel.representativesProfiles.observe(viewLifecycleOwner){it->
+            viewModel.getRepAdapter()
+        }
+        viewModel.representativesAdapt.observe(viewLifecycleOwner){ response->
+            binding.recyclerviewRepresentativesTwo.adapter =response
+            binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
+
+        }
 
         return binding.root
+    }
+
+    private fun getLiveDataInfo() {
+        viewModel.representativesProfiles.observe(viewLifecycleOwner){it->
+            viewModel.getRepAdapter()
+        }
+        viewModel.representativesAdapt.observe(viewLifecycleOwner){ response->
+            binding.recyclerviewRepresentativesTwo.adapter =response
+            binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
+
+        }
     }
 
     private fun checkLocationPermission(): Boolean {

@@ -33,17 +33,14 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class LauncherFragment : Fragment() {
-
     @Inject
     lateinit var retro:ElectionsAPI
-
     @Inject
     lateinit var db:ElectionDatabase
     @Inject
     lateinit var application:Application
     @Inject
     lateinit var dao:CurrentElectionDao
-
     @Inject
     lateinit var repo:CurrentElectionRepository
 
@@ -59,12 +56,6 @@ class LauncherFragment : Fragment() {
         val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
-
-        //LIVE DATA
-
-
-
-//        Picasso.get().load("http://bioguide.congress.gov/bioguide/photo/S/S001175.jpg").into(binding.imageView);
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
