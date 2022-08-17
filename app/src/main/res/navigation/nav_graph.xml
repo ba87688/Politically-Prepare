@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_launcherFragment_to_findMyRepresentativeFragment"
             app:destination="@id/findMyRepresentativeFragment" />
-        <action
-            android:id="@+id/action_launcherFragment_to_find"
-            app:destination="@id/find" />
 
     </fragment>
     <fragment
@@ -45,8 +42,4 @@
             android:id="@+id/action_findMyRepresentativeFragment_to_electionDataDetail"
             app:destination="@id/electionDataDetail" />
     </fragment>
-    <fragment
-        android:id="@+id/find"
-        android:name="com.example.politicalpreparedness.fragments.findrepresentative.Find"
-        android:label="Find" />
 </navigation>

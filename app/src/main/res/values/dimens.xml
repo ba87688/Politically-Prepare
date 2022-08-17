@@ -41,6 +41,7 @@
     <dimen name="height_current_election_card_layout">80dp</dimen>
     <dimen name="tv_title_size_current_election">18sp</dimen>
     <dimen name="margin_bottom_tv_upcoming_election">16dp</dimen>
+    <dimen name="et_margin_top_search_rep">8dp</dimen>
 
     <!-- TODO: Add necessary dimension values -->s
 

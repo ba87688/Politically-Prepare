@@ -14,17 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
 import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
-import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeBinding
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeMotionLayoutBinding
 import com.example.politicalpreparedness.models.representative.parseRepresentative
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
@@ -37,9 +33,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -53,7 +46,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
     @Inject
     lateinit var retro: ElectionsAPI
-
     @Inject
     lateinit var db: ElectionDatabase
     @Inject
@@ -63,7 +55,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     @Inject
     lateinit var repo: CurrentElectionRepository
 
-//    lateinit var binding: FragmentFindMyRepresentativeBinding
     lateinit var binding: FragmentFindMyRepresentativeMotionLayoutBinding
 
     private lateinit var viewModel:FindRepresentativeViewModel
