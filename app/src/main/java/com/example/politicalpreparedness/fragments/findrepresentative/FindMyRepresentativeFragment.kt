@@ -165,16 +165,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         return binding.root
     }
 
-    private fun getLiveDataInfo() {
-        viewModel.representativesProfiles.observe(viewLifecycleOwner){it->
-            viewModel.getRepAdapter()
-        }
-        viewModel.representativesAdapt.observe(viewLifecycleOwner){ response->
-            binding.recyclerviewRepresentativesTwo.adapter =response
-            binding.recyclerviewRepresentativesTwo.layoutManager = LinearLayoutManager(requireContext())
-
-        }
-    }
 
     private fun checkLocationPermission(): Boolean {
         if (ActivityCompat.checkSelfPermission(
