@@ -2,33 +2,20 @@ package com.example.politicalpreparedness.fragments.launch
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.politicalpreparedness.databinding.FragmentLauncherBinding
-import com.example.politicalpreparedness.models.Election
-import com.example.politicalpreparedness.models.Elects
-import com.example.politicalpreparedness.models.representative.RepresentativesData
-import com.example.politicalpreparedness.models.representative.parseRepresentative
-import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
-import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
-import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
-import com.squareup.picasso.Picasso
+import com.example.politicalpreparedness.viewmodels.launcherscreen.LaunchViewModeo
+import com.example.politicalpreparedness.viewmodels.launcherscreen.LaunchViewModeoFactory
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,7 +31,13 @@ class LauncherFragment : Fragment() {
     @Inject
     lateinit var repo:CurrentElectionRepository
 
-    private lateinit var viewModel: CurrentElectionsViewModel
+
+//    private val viewModel: LaunchViewModeo by viewModels()
+    private lateinit var viewModel: LaunchViewModeo
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,9 +46,10 @@ class LauncherFragment : Fragment() {
         val binding = FragmentLauncherBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
 
-        viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
+        val viewModelFactory = LaunchViewModeoFactory ( null,this)
+//
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LaunchViewModeo::class.java)
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
@@ -65,6 +59,8 @@ class LauncherFragment : Fragment() {
             val nav = findNavController()
             nav.navigate(LauncherFragmentDirections.actionLauncherFragmentToFindMyRepresentativeFragment())
         }
+
+
         return binding.root
     }
 }

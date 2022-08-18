@@ -15,16 +15,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.view.get
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.CurrentElectionAdapter
-import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.databinding.FragmentFindMyRepresentativeMotionLayoutBinding
-import com.example.politicalpreparedness.models.representative.parseRepresentative
 import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
@@ -34,10 +29,7 @@ import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepre
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -81,9 +73,11 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         binding = FragmentFindMyRepresentativeMotionLayoutBinding.inflate(inflater)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
-        viewModel =
-            ViewModelProvider(this, FindRepresentativeViewModelFactory(db, application, repo))
-                .get(FindRepresentativeViewModel::class.java)
+
+        val viewModelFactory =FindRepresentativeViewModelFactory(db, application, repo,null,this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FindRepresentativeViewModel::class.java)
+
+
 
 
 
@@ -202,6 +196,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                 LinearLayoutManager(requireContext())
 
         }
+
+
+        Log.i("TAG", "onCreateView: jack 444${viewModel.ev}")
 
         return binding.root
     }

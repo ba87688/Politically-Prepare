@@ -1,10 +1,12 @@
 package com.example.politicalpreparedness.viewmodels.findrepresentative
 
 import android.app.Application
+import android.os.Bundle
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.savedstate.SavedStateRegistryOwner
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
 import dagger.assisted.Assisted
@@ -14,8 +16,10 @@ import javax.inject.Inject
 class FindRepresentativeViewModelFactory @Inject constructor(
     private val dataSource: ElectionDatabase,
     private val application: Application,
-    private val repo: CurrentElectionRepository
-) : AbstractSavedStateViewModelFactory() {
+    private val repo: CurrentElectionRepository,
+    defaultArgs: Bundle? = null,
+    savedStateRegistryOwner: SavedStateRegistryOwner
+) : AbstractSavedStateViewModelFactory(savedStateRegistryOwner,defaultArgs) {
     override fun <T : ViewModel?> create(
         key: String,
         modelClass: Class<T>,

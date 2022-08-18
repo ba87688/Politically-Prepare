@@ -15,15 +15,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class FindRepresentativeViewModel  @AssistedInject constructor(
+class FindRepresentativeViewModel @AssistedInject constructor(
     @Assisted val state: SavedStateHandle,
     val database: ElectionDatabase,
     application: Application,
     val repository: CurrentElectionRepository
 ) : AndroidViewModel(application) {
 
-//    val savedData = state.get()
+    //    val savedData = state.get()
+    lateinit var ev: String
 
+    init {
+
+        ev = "jackie"
+        state.set("HI", "LOSER")
+        ev = state.get<String>("HI") ?: "Idiot"
+    }
 
 
     private val _representativesAdapter = MutableLiveData<RepresentativeDataAdapter>()
@@ -47,12 +54,12 @@ class FindRepresentativeViewModel  @AssistedInject constructor(
 //
 //    }
 
-    fun getRepresentativesViaAddress(address: String){
+    fun getRepresentativesViaAddress(address: String) {
         var adapter = RepresentativeDataAdapter(mutableListOf())
         viewModelScope.launch {
 
             val response = repository.getRepresentativesViaAddress(address)
-            if (response!=null) {
+            if (response != null) {
                 val rep = parseRepresentative(response)
                 _representativesProfiles.postValue(rep.toList())
                 Log.i("TAG", "getRepresentativeProfiles crazy right: ${rep.toString()}")
@@ -61,12 +68,11 @@ class FindRepresentativeViewModel  @AssistedInject constructor(
 
     }
 
-    fun getRepAdapter(){
+    fun getRepAdapter() {
         val list = _representativesProfiles.value?.toList()
         _representativesAdapter.postValue(RepresentativeDataAdapter(list!!))
 
     }
-
 
 
 }
