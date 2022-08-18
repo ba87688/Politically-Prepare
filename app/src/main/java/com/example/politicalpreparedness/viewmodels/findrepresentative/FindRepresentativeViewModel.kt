@@ -9,16 +9,22 @@ import com.example.politicalpreparedness.models.representative.parseRepresentati
 import com.example.politicalpreparedness.models.representatives.Representatives
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class FindRepresentativeViewModel @Inject constructor(
+class FindRepresentativeViewModel  @AssistedInject constructor(
+    @Assisted val state: SavedStateHandle,
     val database: ElectionDatabase,
     application: Application,
     val repository: CurrentElectionRepository
 ) : AndroidViewModel(application) {
+
+//    val savedData = state.get()
+
+
 
     private val _representativesAdapter = MutableLiveData<RepresentativeDataAdapter>()
     val representativesAdapt: LiveData<RepresentativeDataAdapter> = _representativesAdapter

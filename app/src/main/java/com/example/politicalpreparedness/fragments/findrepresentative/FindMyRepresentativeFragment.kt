@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.view.get
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,8 @@ import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepre
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
@@ -61,9 +64,14 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     @Inject
     lateinit var repo: CurrentElectionRepository
 
+
+
+
+
     lateinit var binding: FragmentFindMyRepresentativeMotionLayoutBinding
 
     private lateinit var viewModel: FindRepresentativeViewModel
+
 
 
     override fun onCreateView(
