@@ -48,7 +48,7 @@ class ElectionDataList : Fragment(), CurrentElectionAdapter.OnItemClickListener,
         val binding = FragmentElectionDataListBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this, CurrentElectionsViewModelFactory(db, application, repo))
+        viewModel = ViewModelProvider(this, CurrentElectionsViewModelFactory(db, application, repo,null,this))
                 .get(CurrentElectionsViewModel::class.java)
 
         //CURRENT elections

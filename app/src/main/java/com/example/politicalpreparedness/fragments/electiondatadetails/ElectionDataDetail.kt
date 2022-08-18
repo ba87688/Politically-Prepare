@@ -48,7 +48,7 @@ class ElectionDataDetail : Fragment() {
         binding = FragmentElectionDataDetailBinding.inflate(inflater)
         binding.lifecycleOwner=this
 
-        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo)
+        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
 
