@@ -4,6 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="registerviewmodel"
+            type="com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModel" />
+    </data>
 <androidx.constraintlayout.motion.widget.MotionLayout
 
     android:layout_width="match_parent"

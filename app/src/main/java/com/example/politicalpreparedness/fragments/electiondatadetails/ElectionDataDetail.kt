@@ -50,8 +50,10 @@ class ElectionDataDetail : Fragment() {
         binding = FragmentElectionDataDetailBinding.inflate(inflater)
         binding.lifecycleOwner=this
 
-        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo,null,this)
+        savedInstanceState?.putString("HI","HI")
+        val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo,null, this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
+
 
         setLinks()
         viewModel.setElectionNameAndDay(args.election.name,args.election.electionDay)

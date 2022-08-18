@@ -14,7 +14,10 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
@@ -80,10 +83,10 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
 
 
-
         otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
 
         val spinner = binding.spinnerState
+
 
         ArrayAdapter.createFromResource(
             requireContext(),
@@ -115,6 +118,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
                 }
             }
         }
+
+
+
 
 
         //FIND MY REPRESENTATIVE BUTTON via address typed

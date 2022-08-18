@@ -2,7 +2,9 @@ package com.example.politicalpreparedness.viewmodels.findrepresentative
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.*
+import com.example.politicalpreparedness.R
 import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.models.representative.RepresentativeProfile
 import com.example.politicalpreparedness.models.representative.parseRepresentative
@@ -13,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 class FindRepresentativeViewModel @AssistedInject constructor(
@@ -24,6 +27,7 @@ class FindRepresentativeViewModel @AssistedInject constructor(
 
     //    val savedData = state.get()
     lateinit var ev: String
+    lateinit var street1: String
 
     init {
 
@@ -32,6 +36,10 @@ class FindRepresentativeViewModel @AssistedInject constructor(
         ev = state.get<String>("HI") ?: "Idiot"
     }
 
+
+
+//    private val _cityOfUser = MutableLiveData<String>()
+//    val cityOfUser1: LiveData<String> = _cityOfUser
 
     private val _representativesAdapter = MutableLiveData<RepresentativeDataAdapter>()
     val representativesAdapt: LiveData<RepresentativeDataAdapter> = _representativesAdapter
@@ -73,6 +81,8 @@ class FindRepresentativeViewModel @AssistedInject constructor(
         _representativesAdapter.postValue(RepresentativeDataAdapter(list!!))
 
     }
+
+
 
 
 }

@@ -24,7 +24,7 @@ class CurrentElectionsViewModel @AssistedInject constructor(
     application: Application, val repository: CurrentElectionRepository
 ) : AndroidViewModel(application) {
 
-
+    val ele = state.get<String>("HI")
 
     private val _electionFollowed = MutableLiveData<Boolean>()
     val electionFollowed: LiveData<Boolean> = _electionFollowed
@@ -35,10 +35,13 @@ class CurrentElectionsViewModel @AssistedInject constructor(
 
     init {
         val selectedE = state.get<Bundle>(key = "ELECTIONSELECTED")
+        val selectedeE = state.get<Bundle>(key = "LION")
 
         state.set("YAHOO", "GERMANY")
         val name = state.get<String>("YAHOO") ?: "ALBANIA"
         Log.i("TAG", "the key country is : $name ")
+        Log.i("TAG", "the key country is : ${ele} ")
+        Log.i("TAG", "the key country is : HIII ")
     }
 
     val currentElections = repository.getCurrentElectionsFromDB().asLiveData()

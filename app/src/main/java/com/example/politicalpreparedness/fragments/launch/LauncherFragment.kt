@@ -47,9 +47,15 @@ class LauncherFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
+        savedInstanceState?.putString("HELL","HELL")
+
+
         val viewModelFactory = LaunchViewModeoFactory ( null,this)
 //
         viewModel = ViewModelProvider(this, viewModelFactory).get(LaunchViewModeo::class.java)
+
+        viewModel.setKEYS(savedInstanceState)
+
 
         binding.buttonUpcomingElections.setOnClickListener {
             val nav = findNavController()
