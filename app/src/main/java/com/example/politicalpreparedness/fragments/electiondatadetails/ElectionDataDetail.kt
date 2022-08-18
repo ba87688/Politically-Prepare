@@ -38,6 +38,8 @@ class ElectionDataDetail : Fragment() {
     lateinit var repo: CurrentElectionRepository
 
 
+    private var followed: Boolean=false
+
     lateinit var binding: FragmentElectionDataDetailBinding
 
     override fun onCreateView(
@@ -51,36 +53,50 @@ class ElectionDataDetail : Fragment() {
         val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
-
-        binding.tvDateOfElection.text = args.election.electionDay
-
-        binding.tvElectionTitle.text = args.election.name
-
-
-
         setLinks()
-
-
-        binding.buttonFollowElection.text= if (args.election.saved){
+        viewModel.setElectionNameAndDay(args.election.name,args.election.electionDay)
+        followed = args.election.saved
+        viewModel.setButtonStatus(followed)
+        binding.buttonFollowElection.text= if (followed){
             "Unfollow Election" }else{"Follow Election"}
+
+
+        viewModel.electionFollowed.observe(viewLifecycleOwner){ status->
+            followed = status
+            binding.buttonFollowElection.text= if (followed){
+                "Unfollow Election" }else{"Follow Election"}
+
+        }
+        binding.tvDateOfElection.text = viewModel.electionDay
+        binding.tvElectionTitle.text = viewModel.electionName
+
 
 
         binding.buttonFollowElection.setOnClickListener {
             //if saved, unsave
-            if(args.election.saved){
+            if(followed){
+                args.election.saved = false
+                Log.i("TAG", "onCreateView: election results ${args.election.saved}")
                 val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = false)
                 viewModel.update(updated)
-
-                binding.buttonFollowElection.text="Follow Election"
-
             }else{
+                args.election.saved = true
+                Log.i("TAG", "onCreateView: election resultsf ${args.election.saved}")
+
                 val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = true)
                 viewModel.update(updated)
-
-                binding.buttonFollowElection.text="Unfollow Election"
             }
         }
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+    override fun onResume() {
+        super.onResume()
+
     }
 
 

@@ -17,7 +17,7 @@ interface CurrentElectionRepositoryInterface {
 
     suspend fun delete(election: Election)
 
-    fun getElectionByID(iid:String):Election
+    suspend fun getElectionByID(iid:String):Election
 
     fun getAllElections():List<Election>
 

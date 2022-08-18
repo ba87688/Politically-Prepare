@@ -74,8 +74,12 @@ class CurrentElectionRepository @Inject constructor(
         }
     }
 
-    override fun getElectionByID(iid: String): Election {
-        return dao.getElectionByID(iid)
+    override suspend fun getElectionByID(iid: String): Election {
+        val election:Election
+        withContext(Dispatchers.IO){
+            election= dao.getElectionByID(iid)
+        }
+        return election
     }
 
     override fun getAllElections(): List<Election> {
