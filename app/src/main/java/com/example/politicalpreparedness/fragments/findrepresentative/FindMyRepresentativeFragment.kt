@@ -16,9 +16,11 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
+import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.politicalpreparedness.R
@@ -70,7 +72,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
     private lateinit var viewModel: FindRepresentativeViewModel
 
-
+    var stateChosen: String? = null
+    lateinit var adap:ArrayAdapter<CharSequence>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +85,45 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
         val viewModelFactory =FindRepresentativeViewModelFactory(db, application, repo,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(FindRepresentativeViewModel::class.java)
+
+
+        otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
+        val spinner = binding.spinnerState
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.states,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adap= adapter
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+            spinner.onItemSelectedListener = object : AdapterView.OnItemClickListener,
+                AdapterView.OnItemSelectedListener {
+                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView: $state")
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView1: $state")
+                    stateChosen=state
+                    setState(state)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    val state = binding.spinnerState.selectedItem.toString()
+                    Log.i("TAG", "onCreateView2: $state")
+                }
+            }
+        }
+
+
 
 
 //        viewModel.addressOne.observe(viewLifecycleOwner){it->
@@ -110,45 +152,11 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
             }
 
 
-        }
+            etAddressLine1.setText(viewModel.address1)
+            etAddressLine2.setText(viewModel.address1)
+            etCity.setText(viewModel.address1)
+            etZipcode.setText(viewModel.address1)
 
-
-
-
-        otherList = ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.states)))
-
-        val spinner = binding.spinnerState
-
-
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.states,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-            spinner.onItemSelectedListener = object : AdapterView.OnItemClickListener,
-                AdapterView.OnItemSelectedListener {
-                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    val state = binding.spinnerState.selectedItem.toString()
-                    Log.i("TAG", "onCreateView: $state")
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val state = binding.spinnerState.selectedItem.toString()
-                    Log.i("TAG", "onCreateView1: $state")
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    val state = binding.spinnerState.selectedItem.toString()
-                    Log.i("TAG", "onCreateView2: $state")
-                }
-            }
         }
 
 
@@ -244,6 +252,9 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
     }
 
+    private fun setState(state: String) {
+        viewModel.stateAddress= state.toString()
+    }
 
 
     override fun onResume() {
@@ -252,6 +263,10 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         binding.etAddressLine2.setText(viewModel.address2)
         binding.etCity.setText(viewModel.city)
         binding.etZipcode.setText(viewModel.zipCode)
+        if(stateChosen!=null){
+            binding.spinnerState.setSelection(adap.getPosition(stateChosen))
+
+        }
     }
 
     override fun onPause() {
@@ -260,6 +275,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         viewModel.address2= binding.etAddressLine2.text.toString()
         viewModel.city= binding.etCity.text.toString()
         viewModel.zipCode= binding.etZipcode.text.toString()
+
+        viewModel.stateAddress = binding.spinnerState.selectedItem.toString()
 
     }
 
@@ -313,7 +330,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
     }
 
 

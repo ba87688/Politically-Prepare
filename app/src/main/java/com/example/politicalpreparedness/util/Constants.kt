@@ -10,5 +10,6 @@ object Constants {
     const val ADDRESS2 = "ADDRESS2"
     const val CITY = "CITY"
     const val ZIPCODE = "ZIPCODE"
+    const val STATEADDRESS = "STATEADDRESS"
 
 }

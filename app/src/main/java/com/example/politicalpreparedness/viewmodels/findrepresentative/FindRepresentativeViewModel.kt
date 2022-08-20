@@ -15,6 +15,7 @@ import com.example.politicalpreparedness.util.Constants
 import com.example.politicalpreparedness.util.Constants.ADDRESS1
 import com.example.politicalpreparedness.util.Constants.ADDRESS2
 import com.example.politicalpreparedness.util.Constants.CITY
+import com.example.politicalpreparedness.util.Constants.STATEADDRESS
 import com.example.politicalpreparedness.util.Constants.ZIPCODE
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -59,6 +60,11 @@ class FindRepresentativeViewModel @AssistedInject constructor(
         set(value) {
             field = value
             state.set(ZIPCODE,value)
+        }
+    var stateAddress = state.get<String>(STATEADDRESS) ?:""
+        set(value) {
+            field = value
+            state.set(STATEADDRESS,value)
         }
 
 
