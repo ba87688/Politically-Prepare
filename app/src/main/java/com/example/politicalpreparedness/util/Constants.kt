@@ -7,5 +7,8 @@ object Constants {
     const val ELECTIONNAME = "ELECTIONNAME"
     const val ELECTIONDAY = "ELECTIONDAY"
     const val ADDRESS1 = "ADDRESS1"
+    const val ADDRESS2 = "ADDRESS2"
+    const val CITY = "CITY"
+    const val ZIPCODE = "ZIPCODE"
 
 }

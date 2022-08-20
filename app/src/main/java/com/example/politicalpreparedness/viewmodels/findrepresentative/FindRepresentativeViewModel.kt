@@ -13,6 +13,9 @@ import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
 import com.example.politicalpreparedness.util.Constants
 import com.example.politicalpreparedness.util.Constants.ADDRESS1
+import com.example.politicalpreparedness.util.Constants.ADDRESS2
+import com.example.politicalpreparedness.util.Constants.CITY
+import com.example.politicalpreparedness.util.Constants.ZIPCODE
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,18 +39,34 @@ class FindRepresentativeViewModel @AssistedInject constructor(
     }
 
 
-    var address1 = state.get<String>(ADDRESS1)
+    var address1 = state.get<String>(ADDRESS1) ?:""
         set(value) {
             field = value
             state.set(ADDRESS1,value)
         }
 
+    var address2 = state.get<String>(ADDRESS2) ?:""
+        set(value) {
+            field = value
+            state.set(ADDRESS2,value)
+        }
+    var city = state.get<String>(CITY) ?:""
+        set(value) {
+            field = value
+            state.set(CITY,value)
+        }
+    var zipCode = state.get<String>(ZIPCODE) ?:""
+        set(value) {
+            field = value
+            state.set(ZIPCODE,value)
+        }
 
-    init {
-        var s = state.get<String>(ADDRESS1) ?:" hll"
-        setAddressOne(s)
 
-    }
+//    init {
+//        var s = state.get<String>(ADDRESS1) ?:" hll"
+//        setAddressOne(s)
+//
+//    }
 
     private val _representativesAdapter = MutableLiveData<RepresentativeDataAdapter>()
     val representativesAdapt: LiveData<RepresentativeDataAdapter> = _representativesAdapter

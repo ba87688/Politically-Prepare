@@ -30,6 +30,9 @@ import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
 import com.example.politicalpreparedness.util.Constants
 import com.example.politicalpreparedness.util.Constants.ADDRESS1
+import com.example.politicalpreparedness.util.Constants.ADDRESS2
+import com.example.politicalpreparedness.util.Constants.CITY
+import com.example.politicalpreparedness.util.Constants.ZIPCODE
 import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModel
 import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -81,16 +84,29 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         viewModel = ViewModelProvider(this, viewModelFactory).get(FindRepresentativeViewModel::class.java)
 
 
-        viewModel.addressOne.observe(viewLifecycleOwner){it->
-            binding.etAddressLine1.setText(it)
-
-        }
+//        viewModel.addressOne.observe(viewLifecycleOwner){it->
+//            binding.etAddressLine1.setText(it.toString())
+//
+//        }
 
         binding.apply {
             etAddressLine1.setOnClickListener {
-                viewModel.setAddressOne(it.toString())
                 viewModel.address1 =it.toString()
                 viewModel.state.set(ADDRESS1,it.toString())
+            }
+            etAddressLine2.setOnClickListener {
+                viewModel.address2 =it.toString()
+                viewModel.state.set(ADDRESS2,it.toString())
+            }
+
+            etCity.setOnClickListener {
+                viewModel.city =it.toString()
+                viewModel.state.set(CITY,it.toString())
+            }
+
+            etZipcode.setOnClickListener {
+                viewModel.zipCode =it.toString()
+                viewModel.state.set(ZIPCODE,it.toString())
             }
 
 
@@ -232,14 +248,18 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
     override fun onResume() {
         super.onResume()
-        val z = viewModel.getFirstAddressLine()
-        Log.i("TAG", "onViewStateRestored:  view model saved instance $z")
-        binding.etAddressLine1.setText(z.toString())
+        binding.etAddressLine1.setText(viewModel.address1)
+        binding.etAddressLine2.setText(viewModel.address2)
+        binding.etCity.setText(viewModel.city)
+        binding.etZipcode.setText(viewModel.zipCode)
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.address1= binding.etAddressLine1.text.toString()
+        viewModel.address2= binding.etAddressLine2.text.toString()
+        viewModel.city= binding.etCity.text.toString()
+        viewModel.zipCode= binding.etZipcode.text.toString()
 
     }
 
