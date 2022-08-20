@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:saveEnabled="false"
             android:hint="@string/address1"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.app.ActivityCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.BindingAdapter
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +28,8 @@ import com.example.politicalpreparedness.network.database.CurrentElectionDao
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.network.retrofit.ElectionsAPI
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
+import com.example.politicalpreparedness.util.Constants
+import com.example.politicalpreparedness.util.Constants.ADDRESS1
 import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModel
 import com.example.politicalpreparedness.viewmodels.findrepresentative.FindRepresentativeViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -60,9 +63,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     lateinit var repo: CurrentElectionRepository
 
 
-
-
-
     lateinit var binding: FragmentFindMyRepresentativeMotionLayoutBinding
 
     private lateinit var viewModel: FindRepresentativeViewModel
@@ -79,6 +79,22 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
         val viewModelFactory =FindRepresentativeViewModelFactory(db, application, repo,null,this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(FindRepresentativeViewModel::class.java)
+
+
+        viewModel.addressOne.observe(viewLifecycleOwner){it->
+            binding.etAddressLine1.setText(it)
+
+        }
+
+        binding.apply {
+            etAddressLine1.setOnClickListener {
+                viewModel.setAddressOne(it.toString())
+                viewModel.address1 =it.toString()
+                viewModel.state.set(ADDRESS1,it.toString())
+            }
+
+
+        }
 
 
 
@@ -125,6 +141,8 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
         //FIND MY REPRESENTATIVE BUTTON via address typed
         binding.buttonFindMyRepresentative.setOnClickListener {
+
+
             val allFilled: Boolean =
                 (binding.etAddressLine1.text.isEmpty() || binding.etAddressLine2.text.isEmpty() || binding.etCity.text.isEmpty() || binding.etZipcode.text.isEmpty())
             if (allFilled) {
@@ -154,7 +172,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
 
         //USE MY LOCATION BUTTON - finds rep via location
         binding.buttonUseMyLocation.setOnClickListener {
-
             checkLocationPermission()
             val permissionForLocationGiven = checkLocationPermission()
 
@@ -204,10 +221,28 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
         }
 
 
-        Log.i("TAG", "onCreateView: jack 444${viewModel.ev}")
 
         return binding.root
+
+
+
     }
+
+
+
+    override fun onResume() {
+        super.onResume()
+        val z = viewModel.getFirstAddressLine()
+        Log.i("TAG", "onViewStateRestored:  view model saved instance $z")
+        binding.etAddressLine1.setText(z.toString())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.address1= binding.etAddressLine1.text.toString()
+
+    }
+
 
 
     private fun checkLocationPermission(): Boolean {
@@ -262,4 +297,6 @@ class FindMyRepresentativeFragment : Fragment(), CurrentElectionAdapter.OnItemCl
     }
 
 
+
 }
+

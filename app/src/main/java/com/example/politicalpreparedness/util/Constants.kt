@@ -6,5 +6,6 @@ object Constants {
     const val CURRENTFOLLOWSTATE = "CURRENTFOLLOWSTATE"
     const val ELECTIONNAME = "ELECTIONNAME"
     const val ELECTIONDAY = "ELECTIONDAY"
+    const val ADDRESS1 = "ADDRESS1"
 
 }
