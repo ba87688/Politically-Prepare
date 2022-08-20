@@ -17,6 +17,9 @@ import com.example.politicalpreparedness.databinding.FragmentElectionDataDetailB
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
+import com.example.politicalpreparedness.util.Constants.CURRENTFOLLOWSTATE
+import com.example.politicalpreparedness.util.Constants.ELECTIONDAY
+import com.example.politicalpreparedness.util.Constants.ELECTIONNAME
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModel
 import com.example.politicalpreparedness.viewmodels.currentelection.CurrentElectionsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,8 +41,6 @@ class ElectionDataDetail : Fragment() {
     lateinit var repo: CurrentElectionRepository
 
 
-    private var followed: Boolean=false
-
     lateinit var binding: FragmentElectionDataDetailBinding
 
     override fun onCreateView(
@@ -50,41 +51,53 @@ class ElectionDataDetail : Fragment() {
         binding = FragmentElectionDataDetailBinding.inflate(inflater)
         binding.lifecycleOwner=this
 
-        savedInstanceState?.putString("HI","HI")
+        //build viewmodel
         val viewModelFactory = CurrentElectionsViewModelFactory ( db, application,repo,null, this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(CurrentElectionsViewModel::class.java)
 
 
+
         setLinks()
-        viewModel.setElectionNameAndDay(args.election.name,args.election.electionDay)
-        followed = args.election.saved
-        viewModel.setButtonStatus(followed)
-        binding.buttonFollowElection.text= if (followed){
-            "Unfollow Election" }else{"Follow Election"}
+
+
+        binding.apply {
+            viewModel.state.set(CURRENTFOLLOWSTATE,args.election.saved)
+            viewModel.followed = viewModel.getElectionStatus()
+            viewModel.setButtonStatus(viewModel.followed)
+            buttonFollowElection.text= if (viewModel.followed){
+                "Unfollow Election" }else{"Follow Election"}
+
+
+            viewModel.state.set(ELECTIONNAME,args.election.name)
+            viewModel.state.set(ELECTIONDAY,args.election.electionDay)
+
+            tvDateOfElection.text = viewModel.getElectionD()
+            tvElectionTitle.text = viewModel.getElectionN()
+
+
+
+
+        }
 
 
         viewModel.electionFollowed.observe(viewLifecycleOwner){ status->
-            followed = status
-            binding.buttonFollowElection.text= if (followed){
+            viewModel.followed = status
+            binding.buttonFollowElection.text= if (viewModel.followed){
                 "Unfollow Election" }else{"Follow Election"}
 
         }
-        binding.tvDateOfElection.text = viewModel.electionDay
-        binding.tvElectionTitle.text = viewModel.electionName
+
 
 
 
         binding.buttonFollowElection.setOnClickListener {
             //if saved, unsave
-            if(followed){
+            if(viewModel.followed){
                 args.election.saved = false
-                Log.i("TAG", "onCreateView: election results ${args.election.saved}")
                 val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = false)
                 viewModel.update(updated)
             }else{
                 args.election.saved = true
-                Log.i("TAG", "onCreateView: election resultsf ${args.election.saved}")
-
                 val updated = Election(args.election.electionDay,args.election.id,args.election.name,args.election.ocdDivisionId,saved = true)
                 viewModel.update(updated)
             }

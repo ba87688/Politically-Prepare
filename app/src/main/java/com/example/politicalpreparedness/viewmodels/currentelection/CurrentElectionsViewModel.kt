@@ -10,6 +10,9 @@ import com.example.politicalpreparedness.adapters.RepresentativeDataAdapter
 import com.example.politicalpreparedness.models.Election
 import com.example.politicalpreparedness.network.database.ElectionDatabase
 import com.example.politicalpreparedness.repository.CurrentElectionRepository
+import com.example.politicalpreparedness.util.Constants.CURRENTFOLLOWSTATE
+import com.example.politicalpreparedness.util.Constants.ELECTIONDAY
+import com.example.politicalpreparedness.util.Constants.ELECTIONNAME
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,24 +27,29 @@ class CurrentElectionsViewModel @AssistedInject constructor(
     application: Application, val repository: CurrentElectionRepository
 ) : AndroidViewModel(application) {
 
-    val ele = state.get<String>("HI")
 
     private val _electionFollowed = MutableLiveData<Boolean>()
     val electionFollowed: LiveData<Boolean> = _electionFollowed
 
 
-    lateinit var electionDay: String
-    lateinit var electionName: String
+    var followed: Boolean=false
+        set(value) {
+            field = value
+            state.set(CURRENTFOLLOWSTATE,value)
+        }
+    var electionName = state.get<String>(ELECTIONNAME)
+        set(value) {
+            field = value
+            state.set(ELECTIONNAME,value)
+        }
+    var electionDay = state.get<String>(ELECTIONDAY)
+        set(value) {
+            field = value
+            state.set(ELECTIONDAY, value)
+        }
 
     init {
-        val selectedE = state.get<Bundle>(key = "ELECTIONSELECTED")
-        val selectedeE = state.get<Bundle>(key = "LION")
 
-        state.set("YAHOO", "GERMANY")
-        val name = state.get<String>("YAHOO") ?: "ALBANIA"
-        Log.i("TAG", "the key country is : $name ")
-        Log.i("TAG", "the key country is : ${ele} ")
-        Log.i("TAG", "the key country is : HIII ")
     }
 
     val currentElections = repository.getCurrentElectionsFromDB().asLiveData()
@@ -58,11 +66,20 @@ class CurrentElectionsViewModel @AssistedInject constructor(
     fun setButtonStatus(status:Boolean){
         _electionFollowed.postValue(status)
     }
-
-    fun setElectionNameAndDay(name:String,day:String){
-        electionName = name
-        electionDay = day
+    fun getElectionN(): String {
+        electionName = state.get<String>(ELECTIONNAME) ?: ""
+        return electionName.toString()
     }
+    fun getElectionD(): String {
+        electionDay = state.get<String>(ELECTIONDAY) ?: ""
+        return electionDay.toString()
+    }
+    fun getElectionStatus(): Boolean {
+        followed = state.get<Boolean>(CURRENTFOLLOWSTATE) ?: false
+        return followed
+    }
+
+
 
 
 }
