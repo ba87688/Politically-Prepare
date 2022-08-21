@@ -16,3 +16,5 @@ App uses:
 5. MVVM 
 6. GeoLocation - Geocoder
 7. Dagger Hilt Dependency Injection
+8. Kotlin Coroutines
+
